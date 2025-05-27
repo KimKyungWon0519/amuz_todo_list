@@ -5,9 +5,15 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text("Todo Name"),
-      trailing: IconButton(onPressed: null, icon: Icon(Icons.delete)),
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Text("Todo Name"),
+          Spacer(),
+          IconButton(onPressed: null, icon: Icon(Icons.delete)),
+        ],
+      ),
     );
   }
 }
