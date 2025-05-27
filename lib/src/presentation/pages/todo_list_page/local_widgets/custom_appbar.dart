@@ -7,7 +7,10 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text("ToDo"),
-      actions: [IconButton(onPressed: null, icon: Icon(Icons.search_rounded))],
+      actions: [
+        IconButton(onPressed: null, icon: Icon(Icons.filter_alt_rounded)),
+        IconButton(onPressed: null, icon: Icon(Icons.search_rounded)),
+      ],
     );
   }
 
