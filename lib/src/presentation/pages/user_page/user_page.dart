@@ -7,6 +7,21 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppbar());
+    return Scaffold(
+      appBar: CustomAppbar(),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.account_circle,
+              size: MediaQuery.sizeOf(context).width / 3,
+            ),
+            Text('이름', style: TextTheme.of(context).titleLarge),
+          ],
+        ),
+      ),
+    );
   }
 }
