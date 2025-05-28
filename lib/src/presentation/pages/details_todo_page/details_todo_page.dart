@@ -5,6 +5,8 @@ class DetailsTodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: Placeholder()));
+    return Scaffold(
+      body: SafeArea(child: Padding(padding: EdgeInsets.all(16))),
+    );
   }
 }
