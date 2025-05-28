@@ -12,7 +12,10 @@ class DetailsTodoPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: Column(children: [TodoTitle(), CreateAt(), UpdateAt()]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [TodoTitle(), CreateAt(), UpdateAt()],
+          ),
         ),
       ),
     );
