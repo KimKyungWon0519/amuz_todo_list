@@ -16,8 +16,11 @@ class ImagePanel extends HookWidget {
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Stack(
         children: [
-          Positioned(right: 0, child: ImageIndicator(controller: pageController,)),
-          ImagePageView(controller: pageController,),
+          ImagePageView(controller: pageController),
+          Positioned(
+            right: 0,
+            child: ImageIndicator(controller: pageController),
+          ),
         ],
       ),
     );
