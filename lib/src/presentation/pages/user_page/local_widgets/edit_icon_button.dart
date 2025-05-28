@@ -15,17 +15,24 @@ class EditIconButton extends StatelessWidget {
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
-      builder:
-          (context) => Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(title: Text("프로필 사진 변경")),
-                ListTile(title: Text("이름 변경")),
-              ],
-            ),
-          ),
+      builder: (context) => _BottomSheet(),
+    );
+  }
+}
+
+class _BottomSheet extends StatelessWidget {
+  const _BottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(title: Text("프로필 사진 변경")),
+          ListTile(title: Text("이름 변경")),
+        ],
+      ),
     );
   }
 }
