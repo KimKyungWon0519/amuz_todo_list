@@ -28,7 +28,7 @@ class _DateText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "$type : ${DateFormat.yMd().format(date)}",
+      "$type : ${DateFormat.yMd("ko").format(date)}",
       style: TextStyle(color: Colors.grey[800]),
     );
   }
