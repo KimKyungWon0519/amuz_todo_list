@@ -7,7 +7,8 @@ class TodoListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemBuilder: (context, index) => TodoTile(),
+      itemBuilder:
+          (context, index) => Dismissible(key: UniqueKey(), child: TodoTile()),
       itemCount: 50,
     );
   }
