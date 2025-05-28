@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'local_widgets/todo_title.dart';
 import 'local_widgets/custom_appbar.dart';
 import 'local_widgets/date_text.dart';
+import 'local_widgets/image_pageview.dart';
 
 class DetailsTodoPage extends StatelessWidget {
   const DetailsTodoPage({super.key});
@@ -27,6 +28,12 @@ class DetailsTodoPage extends StatelessWidget {
               SizedBox(height: 8),
               CreateAt(),
               UpdateAt(),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: ImagePageView(),
+                ),
+              ),
             ],
           ),
         ),
