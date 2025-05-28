@@ -10,7 +10,7 @@ class ImagePanel extends StatelessWidget {
     return Container(
       height: MediaQuery.sizeOf(context).height / 3,
       padding: EdgeInsets.symmetric(vertical: 8),
-      child: ImagePageView(),
+      child: Stack(children: [ImagePageView()]),
     );
   }
 }
