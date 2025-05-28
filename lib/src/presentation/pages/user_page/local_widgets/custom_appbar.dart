@@ -5,7 +5,10 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  AppBar(title: Text('프로필'));
+    return AppBar(
+      title: Text('프로필'),
+      actions: [IconButton(onPressed: null, icon: Icon(Icons.edit_rounded))],
+    );
   }
 
   @override
