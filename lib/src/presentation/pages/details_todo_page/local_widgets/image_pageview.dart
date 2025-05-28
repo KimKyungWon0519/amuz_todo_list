@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ImagePageView extends StatelessWidget {
-  const ImagePageView({super.key});
+  final PageController? controller;
+
+  const ImagePageView({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      controller: controller,
       itemBuilder:
           (context, index) => Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
