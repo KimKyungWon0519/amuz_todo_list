@@ -28,12 +28,13 @@ class DetailsTodoPage extends StatelessWidget {
               SizedBox(height: 8),
               CreateAt(),
               UpdateAt(),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: ImagePageView(),
-                ),
+              Spacer(),
+              Container(
+                height: MediaQuery.sizeOf(context).height / 3,
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: ImagePageView(),
               ),
+              Spacer(),
             ],
           ),
         ),
