@@ -17,7 +17,7 @@ final class AppRoutes {
     builder: (context, state) => DetailsTodoPage(),
   );
 
-  static final GoRoute userPage = GoRoute(
+  static final GoRoute user = GoRoute(
     path: '/user',
     builder: (context, state) => UserPage(),
   );
@@ -27,5 +27,5 @@ final class AppRoutes {
     builder: (context, state) => WriteTodoPage(),
   );
 
-  static final List<RouteBase> routes = [main, detailsTodo, userPage, writeTodo];
+  static final List<RouteBase> routes = [main, detailsTodo, user, writeTodo];
 }
