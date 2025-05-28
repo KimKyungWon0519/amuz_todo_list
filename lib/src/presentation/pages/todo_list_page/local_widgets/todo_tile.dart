@@ -7,7 +7,7 @@ class TodoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text("Todo Name"),
-      trailing: IconButton(onPressed: null, icon: Icon(Icons.delete)),
+      trailing: Checkbox(value: false, onChanged: null),
     );
   }
 }
