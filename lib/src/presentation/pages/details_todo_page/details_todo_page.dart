@@ -1,7 +1,8 @@
-import 'package:amuz_todo_list/src/presentation/pages/details_todo_page/local_widgets/date_text.dart';
 import 'package:flutter/material.dart';
 
 import 'local_widgets/todo_title.dart';
+import 'local_widgets/custom_appbar.dart';
+import 'local_widgets/date_text.dart';
 
 class DetailsTodoPage extends StatelessWidget {
   const DetailsTodoPage({super.key});
@@ -9,6 +10,7 @@ class DetailsTodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppbar(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
