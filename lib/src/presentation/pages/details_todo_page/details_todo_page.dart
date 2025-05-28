@@ -14,7 +14,12 @@ class DetailsTodoPage extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TodoTitle(), CreateAt(), UpdateAt()],
+            children: [
+              TodoTitle(),
+              SizedBox(height: 8),
+              CreateAt(),
+              UpdateAt(),
+            ],
           ),
         ),
       ),
