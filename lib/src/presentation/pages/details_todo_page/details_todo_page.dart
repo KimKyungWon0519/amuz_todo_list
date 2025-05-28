@@ -15,7 +15,13 @@ class DetailsTodoPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TodoTitle(),
+              Row(
+                children: [
+                  TodoTitle(),
+                  Spacer(),
+                  Checkbox(value: false, onChanged: null),
+                ],
+              ),
               SizedBox(height: 8),
               CreateAt(),
               UpdateAt(),
