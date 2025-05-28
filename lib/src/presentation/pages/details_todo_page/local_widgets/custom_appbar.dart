@@ -8,7 +8,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       actions: [
         PopupMenuButton(
-          itemBuilder: (context) => [],
+          itemBuilder:
+              (context) => [
+                PopupMenuItem(child: Text("수정")),
+                PopupMenuItem(child: Text("삭제")),
+              ],
           icon: Icon(Icons.more_horiz),
         ),
       ],
