@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'local_widgets/todo_title.dart';
 import 'local_widgets/custom_appbar.dart';
 import 'local_widgets/date_text.dart';
-import 'local_widgets/image_pageview.dart';
+import 'local_widgets/image_panel.dart';
 
 class DetailsTodoPage extends StatelessWidget {
   const DetailsTodoPage({super.key});
@@ -29,11 +29,7 @@ class DetailsTodoPage extends StatelessWidget {
               CreateAt(),
               UpdateAt(),
               Spacer(),
-              Container(
-                height: MediaQuery.sizeOf(context).height / 3,
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: ImagePageView(),
-              ),
+              ImagePanel(),
               Spacer(),
             ],
           ),
