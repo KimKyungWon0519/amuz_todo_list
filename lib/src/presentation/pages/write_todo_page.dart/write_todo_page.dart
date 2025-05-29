@@ -1,6 +1,7 @@
-import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/local_widgets/tag_listview.dart';
 import 'package:flutter/material.dart';
 
+import 'local_widgets/image_preview.dart';
+import 'local_widgets/tag_listview.dart';
 import 'local_widgets/title_field.dart';
 
 class WriteTodoPage extends StatelessWidget {
@@ -20,6 +21,7 @@ class WriteTodoPage extends StatelessWidget {
             Divider(),
             SizedBox(height: 50, child: TagListview()),
             Divider(),
+            ImagePreview(),
           ],
         ),
       ),
