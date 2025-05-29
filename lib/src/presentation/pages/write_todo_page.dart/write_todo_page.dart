@@ -5,6 +5,9 @@ class WriteTodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("ToDo 추가")));
+    return Scaffold(
+      appBar: AppBar(title: Text("ToDo 추가")),
+      body: Padding(padding: EdgeInsets.all(16)),
+    );
   }
 }
