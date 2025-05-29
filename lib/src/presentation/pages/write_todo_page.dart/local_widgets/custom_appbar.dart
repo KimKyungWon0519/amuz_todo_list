@@ -5,9 +5,15 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(title: Text("ToDo 추가"));
+    return AppBar(
+      title: Text("ToDo 추가"),
+      actions: [
+        TextButton(onPressed: null, child: Text('임시저장 | 0')),
+        TextButton(onPressed: null, child: Text('저장')),
+      ],
+    );
   }
-  
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
