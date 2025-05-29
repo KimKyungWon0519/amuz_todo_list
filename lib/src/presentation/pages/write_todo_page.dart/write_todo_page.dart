@@ -11,7 +11,7 @@ class WriteTodoPage extends StatelessWidget {
       appBar: AppBar(title: Text("ToDo 추가")),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Column(children: [TitleField()]),
+        child: Column(spacing: 8, children: [TitleField()]),
       ),
     );
   }
