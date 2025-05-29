@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'local_widgets/title_field.dart';
+
 class WriteTodoPage extends StatelessWidget {
   const WriteTodoPage({super.key});
 
@@ -7,7 +9,10 @@ class WriteTodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("ToDo 추가")),
-      body: Padding(padding: EdgeInsets.all(16)),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(children: [TitleField()]),
+      ),
     );
   }
 }
