@@ -5,4 +5,8 @@ class LocalDatabaseHelper {
 
   LocalDatabaseHelper(LocalDatabase localDatabase)
     : _localDatabase = localDatabase;
+
+  Future<List<Tag>> getAllTags() async {
+    return await _localDatabase.select(_localDatabase.tags).get();
+  }
 }
