@@ -4,5 +4,5 @@ part 'tag.freezed.dart';
 
 @freezed
 abstract class Tag with _$Tag {
-  const factory Tag({required int? id, required String name}) = _Tag;
+  const factory Tag({int? id, required String name}) = _Tag;
 }

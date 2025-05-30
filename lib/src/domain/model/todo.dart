@@ -7,7 +7,7 @@ part 'todo.freezed.dart';
 @freezed
 abstract class Todo with _$Todo {
   const factory Todo({
-    required int? id,
+    int? id,
     required String title,
     required Set<Tag> tags,
     required List<Image> images,
