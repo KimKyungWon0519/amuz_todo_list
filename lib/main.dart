@@ -1,7 +1,10 @@
 import 'package:amuz_todo_list/src/core/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting("ko");
+
   runApp(const MainApp());
 }
 
