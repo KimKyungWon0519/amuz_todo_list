@@ -8,20 +8,21 @@ class TagListview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Set<Tag> tags = ref.watch(
-      detailTodoNotifierProvider.select((value) => value.tags),
-    );
+    final List<Tag> tags =
+        ref
+            .watch(detailTodoNotifierProvider.select((value) => value.tags))
+            .toList();
 
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemBuilder:
           (context, index) => Chip(
-            label: Text('태그 $index'),
+            label: Text(tags[index].name),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100),
             ),
           ),
-      itemCount: 10,
+      itemCount: tags.length,
       separatorBuilder: (BuildContext context, int index) => SizedBox(width: 4),
     );
   }
