@@ -7,6 +7,10 @@ class LocalDatabaseHelper {
   LocalDatabaseHelper(LocalDatabase localDatabase)
     : _localDatabase = localDatabase;
 
+  Future<List<Tag>> getAllTags() async {
+    return await _localDatabase.select(_localDatabase.tags).get();
+  }
+
   Future<bool> deleteTag(int id) async {
     int deleteID =
         await (_localDatabase.delete(_localDatabase.tags)

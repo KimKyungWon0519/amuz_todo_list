@@ -6,9 +6,7 @@ import 'package:get_it/get_it.dart';
 
 void initializeDependency() {
   final LocalDatabase localDatabase = LocalDatabase();
-  final LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper(
-    localDatabase,
-  );
+  final LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper(localDatabase);
 
   final LocalDatabaseRepositoryImpl localDatabaseRepositoryImpl =
       LocalDatabaseRepositoryImpl(localDatabaseHelper);
