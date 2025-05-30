@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TagListview extends StatelessWidget {
+class TagListview extends ConsumerWidget {
   const TagListview({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemBuilder:
