@@ -9,6 +9,16 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
     : _localDatabaseHelper = localDatabaseHelper;
 
   @override
+  Future<bool> deleteAllTag() {
+    return _localDatabaseHelper.deleteAllTag();
+  }
+
+  @override
+  Future<bool> deleteTag(Tag tag) {
+    return _localDatabaseHelper.deleteTag(tag.id ?? 0);
+    }
+
+  @override
   Future<bool> addTag(Tag tag) {
     return _localDatabaseHelper.insertTag(tag);
   }
