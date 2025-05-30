@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/image.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,7 +10,7 @@ abstract class Todo with _$Todo {
     required int? id,
     required String title,
     required Set<Tag> tags,
-    required List<String> images,
+    required List<Image> images,
     required DateTime createAt,
     required DateTime? updateAt,
   }) = _Todo;
