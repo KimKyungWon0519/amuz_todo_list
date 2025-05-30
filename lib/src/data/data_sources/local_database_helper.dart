@@ -13,4 +13,10 @@ class LocalDatabaseHelper {
 
     return deleteID != 0;
   }
+
+  Future<bool> deleteAllTag() async {
+    int deleteID = await _localDatabase.delete(_localDatabase.tags).go();
+
+    return deleteID != 0;
+  }
 }
