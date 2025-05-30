@@ -5,4 +5,12 @@ class LocalDatabaseHelper {
 
   LocalDatabaseHelper(LocalDatabase localDatabase)
     : _localDatabase = localDatabase;
+
+  Future<bool> deleteTag(int id) async {
+    int deleteID =
+        await (_localDatabase.delete(_localDatabase.tags)
+          ..where((item) => item.id.equals(id))).go();
+
+    return deleteID != 0;
+  }
 }
