@@ -1,4 +1,5 @@
-# Build Gennerator Outpus
+# Build Gennerator Outputs
+*.freezed.dart
 *.g.dart
 
 # Miscellaneous
