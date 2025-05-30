@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database_helper.dart';
+import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
 
 class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
@@ -6,4 +7,9 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   LocalDatabaseRepositoryImpl(LocalDatabaseHelper localDatabaseHelper)
     : _localDatabaseHelper = localDatabaseHelper;
+
+  @override
+  Future<bool> addTag(Tag tag) {
+    return _localDatabaseHelper.insertTag(tag);
+  }
 }
