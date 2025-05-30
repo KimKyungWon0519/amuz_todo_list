@@ -10,8 +10,6 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Future<bool> addTag(Tag tag) {
-    // TODO: GetTagOnce 메소드 생성 후 중복 확인 코드 추가
-
     return _localDatabaseHelper.insertTag(tag);
   }
 }
