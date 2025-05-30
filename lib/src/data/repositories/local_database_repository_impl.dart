@@ -15,5 +15,20 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
     List<Tag> tags = await _localDatabaseHelper.getAllTags();
 
     return tags.map((e) => e.toDomainModel()).toSet();
+    }
+
+  @override
+  Future<bool> deleteAllTag() {
+    return _localDatabaseHelper.deleteAllTag();
+  }
+
+  @override
+  Future<bool> deleteTag(Domain.Tag tag) {
+    return _localDatabaseHelper.deleteTag(tag.id ?? 0);
+  }
+
+  @override
+  Future<bool> addTag(Domain.Tag tag) {
+    return _localDatabaseHelper.insertTag(tag);
   }
 }
