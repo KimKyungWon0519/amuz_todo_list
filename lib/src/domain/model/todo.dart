@@ -12,6 +12,9 @@ abstract class Todo with _$Todo {
     required Set<Tag> tags,
     required List<Image> images,
     required DateTime createAt,
-    required DateTime? updateAt,
+    DateTime? updateAt,
   }) = _Todo;
+
+  factory Todo.empty() =>
+      Todo(title: '', tags: {}, images: [], createAt: DateTime.now());
 }
