@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/presentation/pages/details_todo_page/details_todo_page.dart';
+import 'package:amuz_todo_list/src/presentation/pages/shell_route_page/shell_route_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/todo_list_page/todo_list_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/user_page/user_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/write_todo_page.dart';
@@ -27,5 +28,15 @@ final class AppRoutes {
     builder: (context, state) => WriteTodoPage(),
   );
 
-  static final List<RouteBase> routes = [main, detailsTodo, user, writeTodo];
+  static final StatefulShellRoute shellRoute = StatefulShellRoute.indexedStack(
+    branches: [
+      StatefulShellBranch(routes: [main]),
+      StatefulShellBranch(routes: [user]),
+    ],
+    builder:
+        (context, state, navigationShell) =>
+            ShellRoutePage(state: state, navigationShell: navigationShell),
+  );
+
+  static final List<RouteBase> routes = [shellRoute, detailsTodo, writeTodo];
 }
