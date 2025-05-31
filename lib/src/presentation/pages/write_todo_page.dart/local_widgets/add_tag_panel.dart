@@ -131,7 +131,7 @@ class _AllTag extends ConsumerWidget {
   void _addNewTag(WidgetRef ref, String value, BuildContext context) async {
     bool result = await ref
         .read(detailTodoNotifierProvider.notifier)
-        .addNewTag(value);
+        .addTag(value);
 
     if (!result && context.mounted) {
       showDialog(

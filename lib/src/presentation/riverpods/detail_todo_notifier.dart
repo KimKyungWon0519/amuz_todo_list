@@ -18,7 +18,7 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     return Todo.empty();
   }
 
-  Future<bool> addNewTag(String name) {
+  Future<bool> addTag(String name) {
     if (name.isEmpty) {
       return Future.value(false);
     }
