@@ -10,26 +10,28 @@ class AddImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size.width,
-      height: size.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey),
+    return GestureDetector(
+      onTap: () {
+        // Handle image selection
+      },
+      child: Container(
+        width: size.width,
+        height: size.height,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey, width: 1),
+        ),
+        child: path == null || path!.isEmpty
+            ? const _AddIcon()
+            : Image.file(File(path!), fit: BoxFit.cover),
       ),
-      child:
-          path == null
-              ? const _AddButton()
-              : ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.file(File(path!)),
-              ),
     );
   }
 }
 
-class _AddButton extends StatelessWidget {
-  const _AddButton({super.key});
+class _AddIcon extends StatelessWidget {
+  const _AddIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
