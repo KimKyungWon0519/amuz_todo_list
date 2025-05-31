@@ -31,4 +31,12 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   Future<bool> deleteTag(Tag tag) {
     return _localDatabaseRepository.deleteTag(tag);
   }
+
+  void selectedTag(Tag tag) {
+    state = state.copyWith(tags: state.tags..add(tag));
+  }
+
+  void unselectedTag(Tag tag) {
+    state = state.copyWith(tags: state.tags..remove(tag));
+  }
 }
