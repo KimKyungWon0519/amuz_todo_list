@@ -40,7 +40,10 @@ class AddTodoPanel extends HookWidget {
   ) {
     return ExpansionPanel(
       headerBuilder: (context, isExpanded) => ListTile(title: Text(title)),
-      body: body,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: body,
+      ),
       isExpanded: isExpanded,
     );
   }
