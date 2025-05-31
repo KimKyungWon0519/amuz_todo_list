@@ -7,18 +7,22 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:amuz_todo_list/src/domain/model/image.dart' as Domain;
 
-class AddImageButton extends StatelessWidget {
-  final String? path;
+class AddImageButton extends ConsumerWidget {
+  final Domain.Image? image;
   final Size size;
 
-  const AddImageButton({super.key, this.path, required this.size});
+  const AddImageButton({super.key, this.image, required this.size});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
         if (isPathEmpty) {
           _addImage(context);
+        } else {
+          ref
+              .read(detailTodoNotifierProvider.notifier)
+              .selectImage(image!);
         }
       },
       child: Container(
@@ -30,7 +34,7 @@ class AddImageButton extends StatelessWidget {
           border: Border.all(color: Colors.grey, width: 2),
           image:
               !isPathEmpty
-                  ? DecorationImage(image: FileImage(File(path!)))
+                  ? DecorationImage(image: FileImage(File(image!.url)))
                   : null,
         ),
 
@@ -48,7 +52,7 @@ class AddImageButton extends StatelessWidget {
     );
   }
 
-  bool get isPathEmpty => path == null || path!.isEmpty;
+  bool get isPathEmpty => image == null || image!.url.isEmpty;
 }
 
 class _AddIcon extends StatelessWidget {

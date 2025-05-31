@@ -20,7 +20,9 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   }
 
   void setTitle(String title) {
-    state = state.copyWith(title: title);
+    Todo todo = state.todo.copyWith(title: title);
+    
+    state = state.copyWith(todo: todo);
   }
 
   Future<bool> addTag(String name) {
@@ -55,24 +57,25 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     }
 
     Todo todo = state.todo.copyWith(images: [...state.todo.images, image]);
-    
+
     state = state.copyWith(todo: todo);
+  }
+
+  void selectImage(Image image) {
+    state = state.copyWith(selectedImage: image);
   }
 }
 
 class DetailTodoState {
   final Todo todo;
-  final Image? image;
+  final Image? selectedImage;
 
-  DetailTodoState({required this.todo, this.image});
+  DetailTodoState({required this.todo, this.selectedImage});
 
-  DetailTodoState copyWith({
-    Todo? todo,
-    Image? image,
-    String? title,
-    Set<Tag>? tags,
-    List<Image>? images,
-  }) {
-    return DetailTodoState(todo: todo ?? this.todo, image: image ?? this.image);
+  DetailTodoState copyWith({Todo? todo, Image? selectedImage}) {
+    return DetailTodoState(
+      todo: todo ?? this.todo,
+      selectedImage: selectedImage ?? this.selectedImage,
+    );
   }
 }

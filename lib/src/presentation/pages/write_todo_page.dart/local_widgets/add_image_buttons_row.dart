@@ -26,7 +26,7 @@ class AddImageButtonsRow extends ConsumerWidget {
               images.length + (images.length < 5 ? 1 : 0),
               (index) => AddImageButton(
                 size: Size(itemSize, itemSize),
-                path: index < images.length ? images[index].url : null,
+                image: index < images.length ? images[index] : null,
               ),
             ),
             if (images.length + (images.length < 5 ? 1 : 0) < 6) Spacer(),
