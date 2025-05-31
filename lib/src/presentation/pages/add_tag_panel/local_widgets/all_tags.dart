@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/core/constants/app_constant.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/presentation/pages/add_tag_panel/add_tag_panel.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
@@ -87,7 +88,7 @@ class _AddTagField extends HookConsumerWidget {
 
     return TextField(
       controller: controller,
-      maxLength: 10,
+      maxLength: tagMaxLength,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
         hintText: '추가할 태그 이름을 입력해주세요.',
