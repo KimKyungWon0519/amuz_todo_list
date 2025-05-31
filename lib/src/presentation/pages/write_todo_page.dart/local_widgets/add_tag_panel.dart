@@ -98,7 +98,7 @@ class _AllTag extends ConsumerWidget {
         SearchBar(
           elevation: WidgetStatePropertyAll(0.0),
           hintText: '추가할 태그 이름을 입력해주세요.',
-          onSubmitted: (value) => _addNewTag(ref, value, context),
+          onSubmitted: (value) => _addTag(ref, value, context),
         ),
         tags.when(
           data:
@@ -129,7 +129,7 @@ class _AllTag extends ConsumerWidget {
     );
   }
 
-  void _addNewTag(WidgetRef ref, String value, BuildContext context) async {
+  void _addTag(WidgetRef ref, String value, BuildContext context) async {
     bool result = await ref
         .read(detailTodoNotifierProvider.notifier)
         .addTag(value);
