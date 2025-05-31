@@ -17,20 +17,44 @@ class AddTodoPanel extends HookWidget {
         child: SingleChildScrollView(
           child: ExpansionPanelList(
             children: [
-              _customExpansionPanel('추가된 태그', _SelectTag()),
-              _customExpansionPanel('모든 태그', _AllTag()),
+              _customExpansionPanel(
+                '추가된 태그',
+                _SelectTag(),
+                isOpenState.value[0],
+              ),
+              _customExpansionPanel('모든 태그', _AllTag(), isOpenState.value[1]),
             ],
+            expansionCallback:
+                (panelIndex, isExpanded) =>
+                    _updateExpandedState(panelIndex, isExpanded, isOpenState),
           ),
         ),
       ),
     );
   }
 
-  ExpansionPanel _customExpansionPanel(String title, Widget body) {
+  ExpansionPanel _customExpansionPanel(
+    String title,
+    Widget body,
+    bool isExpanded,
+  ) {
     return ExpansionPanel(
       headerBuilder: (context, isExpanded) => ListTile(title: Text(title)),
       body: body,
+      isExpanded: isExpanded,
     );
+  }
+
+  void _updateExpandedState(
+    int panelIndex,
+    bool isExpanded,
+    ValueNotifier<List<bool>> state,
+  ) {
+    List<bool> updateState = state.value.toList();
+
+    updateState[panelIndex] = isExpanded;
+
+    state.value = updateState;
   }
 }
 
