@@ -12,36 +12,21 @@ class AddTodoPanel extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
+          child: ExpansionPanelList(
             children: [
-              ExpansionPanelList(
-                children: [
-                  ExpansionPanel(
-                    headerBuilder:
-                        (context, isExpanded) =>
-                            ListTile(title: Text('추가된 태그')),
-                    body: _SelectTag(),
-                    isExpanded: true,
-                  ),
-                ],
-              ),
-              ExpansionPanelList(
-                children: [
-                  ExpansionPanel(
-                    headerBuilder:
-                        (context, isExpanded) => ListTile(title: Text('모든 태그')),
-                    body: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: _AllTag(),
-                    ),
-                    isExpanded: true,
-                  ),
-                ],
-              ),
+              _customExpansionPanel('추가된 태그', _SelectTag()),
+              _customExpansionPanel('모든 태그', _AllTag()),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  ExpansionPanel _customExpansionPanel(String title, Widget body) {
+    return ExpansionPanel(
+      headerBuilder: (context, isExpanded) => ListTile(title: Text(title)),
+      body: body,
     );
   }
 }
