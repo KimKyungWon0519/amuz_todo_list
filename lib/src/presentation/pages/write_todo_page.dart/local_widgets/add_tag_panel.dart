@@ -1,6 +1,7 @@
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -137,16 +138,7 @@ class _AllTag extends ConsumerWidget {
       showDialog(
         context: context,
         builder:
-            (_) => AlertDialog(
-              title: Text('태그 추가 실패'),
-              content: Text('이미 존재하는 태그입니다.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('확인'),
-                ),
-              ],
-            ),
+            (_) => ErrorDialog(title: '태그 추가 실패', content: '이미 존재하는 태그입니다.'),
       );
     }
   }
@@ -160,16 +152,7 @@ class _AllTag extends ConsumerWidget {
       showDialog(
         context: context,
         builder:
-            (_) => AlertDialog(
-              title: Text('태그 삭제 실패'),
-              content: Text('태그를 삭제할 수 없습니다.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('확인'),
-                ),
-              ],
-            ),
+            (_) => ErrorDialog(title: '태그 삭제 실패', content: '태그를 삭제할 수 없습니다.'),
       );
     }
   }
