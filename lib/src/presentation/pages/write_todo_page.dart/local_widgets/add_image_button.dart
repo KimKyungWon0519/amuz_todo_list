@@ -1,6 +1,11 @@
 import 'dart:io';
 
+import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:amuz_todo_list/src/domain/model/image.dart' as Domain;
 
 class AddImageButton extends StatelessWidget {
   final String? path;
@@ -12,7 +17,9 @@ class AddImageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Handle image selection
+        if (isPathEmpty) {
+          _addImage(context);
+        }
       },
       child: Container(
         width: size.width,
@@ -20,14 +27,28 @@ class AddImageButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey, width: 1),
+          border: Border.all(color: Colors.grey, width: 2),
+          image:
+              !isPathEmpty
+                  ? DecorationImage(image: FileImage(File(path!)))
+                  : null,
         ),
-        child: path == null || path!.isEmpty
-            ? const _AddIcon()
-            : Image.file(File(path!), fit: BoxFit.cover),
+
+        clipBehavior: Clip.hardEdge,
+        child: isPathEmpty ? const _AddIcon() : null,
       ),
     );
   }
+
+  void _addImage(BuildContext context) async {
+    showModalBottomSheet(
+      showDragHandle: true,
+      context: context,
+      builder: (context) => const _AddImageBottomSheet(),
+    );
+  }
+
+  bool get isPathEmpty => path == null || path!.isEmpty;
 }
 
 class _AddIcon extends StatelessWidget {
@@ -36,5 +57,47 @@ class _AddIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: Icon(Icons.add_a_photo, color: Colors.grey, size: 30));
+  }
+}
+
+class _AddImageBottomSheet extends ConsumerWidget {
+  const _AddImageBottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(title: Text('사진 촬영'), onTap: () => _addImage(context, ref)),
+          ListTile(
+            title: Text('사진 가져오기'),
+            onTap: () async {
+              final ImagePicker picker = ImagePicker();
+              final XFile? image = await picker.pickImage(
+                source: ImageSource.gallery,
+              );
+
+              if (image != null) {
+                context.pop();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addImage(BuildContext context, WidgetRef ref) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      Domain.Image domainImage = Domain.Image(url: image.path);
+
+      ref.read(detailTodoNotifierProvider.notifier).addImage(domainImage);
+
+      context.pop();
+    }
   }
 }

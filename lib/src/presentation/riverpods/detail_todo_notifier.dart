@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/image.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
@@ -42,5 +43,13 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
 
   void unselectedTag(Tag tag) {
     state = state.copyWith(tags: state.tags.toSet()..remove(tag));
+  }
+
+  void addImage(Image image) {
+    if (image.url.isEmpty) {
+      return;
+    }
+
+    state = state.copyWith(images: [...state.images, image]);
   }
 }

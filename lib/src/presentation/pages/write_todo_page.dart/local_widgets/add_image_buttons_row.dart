@@ -21,10 +21,16 @@ class AddImageButtonsRow extends ConsumerWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           spacing: 8,
-          children: List.generate(
-            images.length + images.length < 5 ? 1 : 0,
-            (_) => AddImageButton(size: Size(itemSize, itemSize)),
-          ),
+          children: [
+            ...List.generate(
+              images.length + (images.length < 5 ? 1 : 0),
+              (index) => AddImageButton(
+                size: Size(itemSize, itemSize),
+                path: index < images.length ? images[index].url : null,
+              ),
+            ),
+            if (images.length + (images.length < 5 ? 1 : 0) < 6) Spacer(),
+          ],
         );
       },
     );
