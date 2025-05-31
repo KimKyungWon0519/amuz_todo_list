@@ -78,7 +78,11 @@ class _SelectTag extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               clipBehavior: Clip.hardEdge,
-              onDeleted: () {},
+              onDeleted: () {
+                ref
+                    .read(detailTodoNotifierProvider.notifier)
+                    .unselectedTag(tag);
+              },
             );
           }).toList(),
     );
@@ -110,13 +114,19 @@ class _AllTag extends ConsumerWidget {
                   children:
                       data
                           .map(
-                            (e) => Chip(
-                              label: Text(e.name),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
+                            (e) => GestureDetector(
+                              child: Chip(
+                                label: Text(e.name),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                onDeleted: () => _deleteTag(ref, e, context),
                               ),
-                              clipBehavior: Clip.hardEdge,
-                              onDeleted: () => _deleteTag(ref, e, context),
+                              onTap:
+                                  () => ref
+                                      .read(detailTodoNotifierProvider.notifier)
+                                      .selectedTag(e),
                             ),
                           )
                           .toList(),

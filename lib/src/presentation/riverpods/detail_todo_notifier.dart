@@ -33,10 +33,10 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   }
 
   void selectedTag(Tag tag) {
-    state = state.copyWith(tags: state.tags..add(tag));
+    state = state.copyWith(tags: {...state.tags, tag});
   }
 
   void unselectedTag(Tag tag) {
-    state = state.copyWith(tags: state.tags..remove(tag));
+    state = state.copyWith(tags: state.tags.toSet()..remove(tag));
   }
 }
