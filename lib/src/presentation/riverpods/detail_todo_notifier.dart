@@ -27,4 +27,8 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
 
     return _localDatabaseRepository.addTag(tag);
   }
+
+  Future<bool> deleteTag(Tag tag) {
+    return _localDatabaseRepository.deleteTag(tag);
+  }
 }

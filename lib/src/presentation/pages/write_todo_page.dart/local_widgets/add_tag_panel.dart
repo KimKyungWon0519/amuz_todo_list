@@ -40,10 +40,7 @@ class AddTodoPanel extends HookWidget {
   ) {
     return ExpansionPanel(
       headerBuilder: (context, isExpanded) => ListTile(title: Text(title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: body,
-      ),
+      body: Padding(padding: const EdgeInsets.all(16.0), child: body),
       isExpanded: isExpanded,
     );
   }
@@ -118,7 +115,7 @@ class _AllTag extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               clipBehavior: Clip.hardEdge,
-                              onDeleted: () {},
+                              onDeleted: () => _deleteTag(ref, e, context),
                             ),
                           )
                           .toList(),
@@ -143,6 +140,29 @@ class _AllTag extends ConsumerWidget {
             (_) => AlertDialog(
               title: Text('태그 추가 실패'),
               content: Text('이미 존재하는 태그입니다.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('확인'),
+                ),
+              ],
+            ),
+      );
+    }
+  }
+
+  void _deleteTag(WidgetRef ref, Tag tag, BuildContext context) async {
+    bool result = await ref
+        .read(detailTodoNotifierProvider.notifier)
+        .deleteTag(tag);
+
+    if (!result && context.mounted) {
+      showDialog(
+        context: context,
+        builder:
+            (_) => AlertDialog(
+              title: Text('태그 삭제 실패'),
+              content: Text('태그를 삭제할 수 없습니다.'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
