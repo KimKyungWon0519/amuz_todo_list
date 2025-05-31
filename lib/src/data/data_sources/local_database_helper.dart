@@ -15,6 +15,11 @@ class LocalDatabaseHelper {
     return _localDatabase.select(_localDatabase.tags).watch();
   }
 
+  Future<Tag?> getTagOrNullByName(String name) async {
+    return (_localDatabase.select(_localDatabase.tags)
+      ..where((item) => item.name.equals(name))).getSingleOrNull();
+  }
+
   Future<bool> deleteTag(int id) async {
     int deleteID =
         await (_localDatabase.delete(_localDatabase.tags)

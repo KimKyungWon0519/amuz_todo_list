@@ -9,31 +9,38 @@ class AddTodoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          ExpansionPanelList(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              ExpansionPanel(
-                headerBuilder:
-                    (context, isExpanded) => ListTile(title: Text('추가된 태그')),
-                body: _SelectTag(),
-                isExpanded: true,
+              ExpansionPanelList(
+                children: [
+                  ExpansionPanel(
+                    headerBuilder:
+                        (context, isExpanded) =>
+                            ListTile(title: Text('추가된 태그')),
+                    body: _SelectTag(),
+                    isExpanded: true,
+                  ),
+                ],
+              ),
+              ExpansionPanelList(
+                children: [
+                  ExpansionPanel(
+                    headerBuilder:
+                        (context, isExpanded) => ListTile(title: Text('모든 태그')),
+                    body: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: _AllTag(),
+                    ),
+                    isExpanded: true,
+                  ),
+                ],
               ),
             ],
           ),
-          ExpansionPanelList(
-            children: [
-              ExpansionPanel(
-                headerBuilder:
-                    (context, isExpanded) => ListTile(title: Text('모든 태그')),
-                body: _AllTag(),
-                isExpanded: true,
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -72,24 +79,63 @@ class _AllTag extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<Set<Tag>> tags = ref.watch(watchAllTagsProvider);
 
-    return tags.when(
-      data:
-          (data) => Wrap(
-            spacing: 8,
-            children:
-                data.map((tag) {
-                  return Chip(
-                    label: Text(tag.name),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    onDeleted: () {},
-                  );
-                }).toList(),
-          ),
-      error: (_, __) => Container(),
-      loading: () => const Center(child: CircularProgressIndicator()),
+    return Column(
+      spacing: 8,
+      children: [
+        SearchBar(
+          elevation: WidgetStatePropertyAll(0.0),
+          hintText: '추가할 태그 이름을 입력해주세요.',
+          onSubmitted: (value) => _addNewTag(ref, value, context),
+        ),
+        tags.when(
+          data:
+              (data) => SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  runAlignment: WrapAlignment.start,
+                  spacing: 8,
+                  children:
+                      data
+                          .map(
+                            (e) => Chip(
+                              label: Text(e.name),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              onDeleted: () {},
+                            ),
+                          )
+                          .toList(),
+                ),
+              ),
+          error: (_, __) => Container(),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        ),
+      ],
     );
+  }
+
+  void _addNewTag(WidgetRef ref, String value, BuildContext context) async {
+    bool result = await ref
+        .read(detailTodoNotifierProvider.notifier)
+        .addNewTag(value);
+
+    if (!result && context.mounted) {
+      showDialog(
+        context: context,
+        builder:
+            (_) => AlertDialog(
+              title: Text('태그 추가 실패'),
+              content: Text('이미 존재하는 태그입니다.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('확인'),
+                ),
+              ],
+            ),
+      );
+    }
   }
 }

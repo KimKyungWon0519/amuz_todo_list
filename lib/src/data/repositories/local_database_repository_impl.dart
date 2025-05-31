@@ -15,7 +15,7 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
     List<Tag> tags = await _localDatabaseHelper.getAllTags();
 
     return tags.map((e) => e.toDomainModel()).toSet();
-    }
+  }
 
   @override
   Future<bool> deleteAllTag() {
@@ -28,10 +28,14 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   }
 
   @override
-  Future<bool> addTag(Domain.Tag tag) {
+  Future<bool> addTag(Domain.Tag tag) async {
+    Tag? findTag = await _localDatabaseHelper.getTagOrNullByName(tag.name);
+
+    if (findTag != null) return false;
+
     return _localDatabaseHelper.insertTag(tag);
   }
-  
+
   @override
   Stream<Set<Domain.Tag>> watchAllTags() {
     return _localDatabaseHelper.watchAllTags().map((tags) {
