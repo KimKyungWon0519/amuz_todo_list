@@ -7,9 +7,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'local_database_notifier.g.dart';
 
 @Riverpod(keepAlive: false)
-Future<Set<Tag>> getAllTags(Ref ref) async {
+Stream<Set<Tag>> watchAllTags(Ref ref) async* {
   final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
-  final Set<Tag> tags = await repository.getAllTags();
-
-  return tags;
+  
+  yield* repository.watchAllTags();
 }

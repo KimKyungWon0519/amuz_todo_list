@@ -31,4 +31,11 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   Future<bool> addTag(Domain.Tag tag) {
     return _localDatabaseHelper.insertTag(tag);
   }
+  
+  @override
+  Stream<Set<Domain.Tag>> watchAllTags() {
+    return _localDatabaseHelper.watchAllTags().map((tags) {
+      return tags.map((e) => e.toDomainModel()).toSet();
+    });
+  }
 }

@@ -11,6 +11,10 @@ class LocalDatabaseHelper {
     return await _localDatabase.select(_localDatabase.tags).get();
   }
 
+  Stream<List<Tag>> watchAllTags() {
+    return _localDatabase.select(_localDatabase.tags).watch();
+  }
+
   Future<bool> deleteTag(int id) async {
     int deleteID =
         await (_localDatabase.delete(_localDatabase.tags)
