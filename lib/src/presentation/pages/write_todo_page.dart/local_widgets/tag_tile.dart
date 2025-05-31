@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/local_widgets/add_todo_panel.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,7 +20,13 @@ class TagTile extends StatelessWidget {
             return Text('$tagCount 개');
           },
         ),
-        onTap: () {},
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AddTodoPanel(),
+            showDragHandle: true
+          );
+        },
       ),
     );
   }
