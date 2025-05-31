@@ -22,9 +22,13 @@ class TagTile extends StatelessWidget {
         ),
         onTap: () {
           showModalBottomSheet(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+            ),
             context: context,
             builder: (context) => AddTodoPanel(),
-            showDragHandle: true
+            showDragHandle: true,
+            isScrollControlled: true,
           );
         },
       ),
