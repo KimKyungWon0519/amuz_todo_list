@@ -96,11 +96,7 @@ class _AllTag extends ConsumerWidget {
     return Column(
       spacing: 8,
       children: [
-        SearchBar(
-          elevation: WidgetStatePropertyAll(0.0),
-          hintText: '추가할 태그 이름을 입력해주세요.',
-          onSubmitted: (value) => _addTag(ref, value, context),
-        ),
+        const _AddTagField(),
         tags.when(
           data:
               (data) => _TagWrap(
@@ -125,20 +121,6 @@ class _AllTag extends ConsumerWidget {
     );
   }
 
-  void _addTag(WidgetRef ref, String value, BuildContext context) async {
-    bool result = await ref
-        .read(detailTodoNotifierProvider.notifier)
-        .addTag(value);
-
-    if (!result && context.mounted) {
-      showDialog(
-        context: context,
-        builder:
-            (_) => ErrorDialog(title: '태그 추가 실패', content: '이미 존재하는 태그입니다.'),
-      );
-    }
-  }
-
   void _deleteTag(WidgetRef ref, Tag tag, BuildContext context) async {
     bool result = await ref
         .read(detailTodoNotifierProvider.notifier)
@@ -151,6 +133,53 @@ class _AllTag extends ConsumerWidget {
             (_) => ErrorDialog(title: '태그 삭제 실패', content: '태그를 삭제할 수 없습니다.'),
       );
     }
+  }
+}
+
+class _AddTagField extends HookConsumerWidget {
+  const _AddTagField({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController controller = useTextEditingController();
+
+    return TextField(
+      controller: controller,
+      maxLength: 10,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
+        hintText: '추가할 태그 이름을 입력해주세요.',
+      ),
+      onSubmitted: (value) async {
+        if (await _addTag(ref, value, context)) {
+          controller.clear();
+          FocusScope.of(context).unfocus();
+        }
+      },
+      onTapUpOutside: (event) => FocusScope.of(context).unfocus(),
+    );
+  }
+
+  Future<bool> _addTag(
+    WidgetRef ref,
+    String value,
+    BuildContext context,
+  ) async {
+    bool result = await ref
+        .read(detailTodoNotifierProvider.notifier)
+        .addTag(value);
+
+    if (!result && context.mounted) {
+      showDialog(
+        context: context,
+        builder:
+            (_) => ErrorDialog(title: '태그 추가 실패', content: '이미 존재하는 태그입니다.'),
+      );
+
+      return false;
+    }
+
+    return true;
   }
 }
 
