@@ -91,29 +91,35 @@ class _AllTag extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<Set<Tag>> tags = ref.watch(watchAllTagsProvider);
+    final AsyncValue<Set<Tag>> allTags = ref.watch(watchAllTagsProvider);
+    final Set<Tag> selectedTags = ref.watch(
+      detailTodoNotifierProvider.select((value) => value.tags),
+    );
 
     return Column(
       spacing: 8,
       children: [
         const _AddTagField(),
-        tags.when(
-          data:
-              (data) => _TagWrap(
-                children:
-                    data
-                        .map(
-                          (tag) => _TagChip(
-                            tag: tag,
-                            onDeleted: () => _deleteTag(ref, tag, context),
-                            onTap:
-                                () => ref
-                                    .read(detailTodoNotifierProvider.notifier)
-                                    .selectedTag(tag),
-                          ),
-                        )
-                        .toList(),
-              ),
+        allTags.when(
+          data: (data) {
+            data.removeAll(selectedTags);
+
+            return _TagWrap(
+              children:
+                  data
+                      .map(
+                        (tag) => _TagChip(
+                          tag: tag,
+                          onDeleted: () => _deleteTag(ref, tag, context),
+                          onTap:
+                              () => ref
+                                  .read(detailTodoNotifierProvider.notifier)
+                                  .selectedTag(tag),
+                        ),
+                      )
+                      .toList(),
+            );
+          },
           error: (_, __) => Container(),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),
