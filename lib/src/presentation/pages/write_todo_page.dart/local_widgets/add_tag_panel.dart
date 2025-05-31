@@ -4,6 +4,7 @@ import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifie
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,6 +31,15 @@ class AddTodoPanel extends HookWidget {
     final ValueNotifier<List<bool>> isOpenState = useState([false, false]);
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => context.pop(),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: ExpansionPanelList(
