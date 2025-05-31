@@ -18,6 +18,10 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     return Todo.empty();
   }
 
+  void setTitle(String title) {
+    state = state.copyWith(title: title);
+  }
+
   Future<bool> addTag(String name) {
     if (name.isEmpty) {
       return Future.value(false);
