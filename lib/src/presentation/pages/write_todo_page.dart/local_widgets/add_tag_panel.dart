@@ -5,6 +5,22 @@ import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'add_tag_panel.g.dart';
+
+@riverpod
+Stream<Set<Tag>> getAllTagsExcludingSelected(Ref ref) async* {
+  final Set<Tag> selectedTag = ref.watch(
+    detailTodoNotifierProvider.select((value) => value.tags),
+  );
+
+  final Stream<Set<Tag>> allTagsStream = ref.watch(watchAllTagsProvider.stream);
+
+  await for (final Set<Tag> allTags in allTagsStream) {
+    yield allTags..removeAll(selectedTag);
+  }
+}
 
 class AddTodoPanel extends HookWidget {
   const AddTodoPanel({super.key});
@@ -91,9 +107,8 @@ class _AllTag extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<Set<Tag>> allTags = ref.watch(watchAllTagsProvider);
-    final Set<Tag> selectedTags = ref.watch(
-      detailTodoNotifierProvider.select((value) => value.tags),
+    final AsyncValue<Set<Tag>> allTags = ref.watch(
+      getAllTagsExcludingSelectedProvider,
     );
 
     return Column(
@@ -101,25 +116,22 @@ class _AllTag extends ConsumerWidget {
       children: [
         const _AddTagField(),
         allTags.when(
-          data: (data) {
-            data.removeAll(selectedTags);
-
-            return _TagWrap(
-              children:
-                  data
-                      .map(
-                        (tag) => _TagChip(
-                          tag: tag,
-                          onDeleted: () => _deleteTag(ref, tag, context),
-                          onTap:
-                              () => ref
-                                  .read(detailTodoNotifierProvider.notifier)
-                                  .selectedTag(tag),
-                        ),
-                      )
-                      .toList(),
-            );
-          },
+          data:
+              (data) => _TagWrap(
+                children:
+                    data
+                        .map(
+                          (tag) => _TagChip(
+                            tag: tag,
+                            onDeleted: () => _deleteTag(ref, tag, context),
+                            onTap:
+                                () => ref
+                                    .read(detailTodoNotifierProvider.notifier)
+                                    .selectedTag(tag),
+                          ),
+                        )
+                        .toList(),
+              ),
           error: (_, __) => Container(),
           loading: () => const Center(child: CircularProgressIndicator()),
         ),
