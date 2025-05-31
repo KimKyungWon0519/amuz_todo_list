@@ -2,9 +2,10 @@ import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddTodoPanel extends StatelessWidget {
+class AddTodoPanel extends HookWidget {
   const AddTodoPanel({super.key});
 
   @override
