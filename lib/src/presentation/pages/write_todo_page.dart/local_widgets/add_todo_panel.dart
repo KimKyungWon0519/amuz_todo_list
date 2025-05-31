@@ -10,6 +10,8 @@ class AddTodoPanel extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<List<bool>> isOpenState = useState([false, false]);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
