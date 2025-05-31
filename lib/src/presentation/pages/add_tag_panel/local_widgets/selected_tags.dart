@@ -12,7 +12,7 @@ class SelectTag extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Set<Tag> tags = ref.watch(
-      detailTodoNotifierProvider.select((value) => value.tags),
+      detailTodoNotifierProvider.select((value) => value.todo.tags),
     );
 
     return TagWrap(

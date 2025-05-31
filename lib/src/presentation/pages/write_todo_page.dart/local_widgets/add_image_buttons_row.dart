@@ -11,7 +11,7 @@ class AddImageButtonsRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Domain.Image> images = ref.watch(
-      detailTodoNotifierProvider.select((value) => value.images),
+      detailTodoNotifierProvider.select((value) => value.todo.images),
     );
 
     return LayoutBuilder(

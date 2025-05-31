@@ -14,7 +14,7 @@ class TagTile extends StatelessWidget {
         trailing: Consumer(
           builder: (context, ref, child) {
             final int tagCount = ref.watch(
-              detailTodoNotifierProvider.select((value) => value.tags.length),
+              detailTodoNotifierProvider.select((value) => value.todo.tags.length),
             );
 
             return Text('$tagCount 개');

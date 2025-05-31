@@ -15,8 +15,8 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     : _localDatabaseRepository = GetIt.I<LocalDatabaseRepository>();
 
   @override
-  Todo build() {
-    return Todo.empty();
+  DetailTodoState build() {
+    return DetailTodoState(todo: Todo.empty());
   }
 
   void setTitle(String title) {
@@ -38,11 +38,15 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   }
 
   void selectedTag(Tag tag) {
-    state = state.copyWith(tags: {...state.tags, tag});
+    Todo todo = state.todo.copyWith(tags: {...state.todo.tags, tag});
+
+    state = state.copyWith(todo: todo);
   }
 
   void unselectedTag(Tag tag) {
-    state = state.copyWith(tags: state.tags.toSet()..remove(tag));
+    Todo todo = state.todo.copyWith(tags: state.todo.tags.toSet()..remove(tag));
+
+    state = state.copyWith(todo: todo);
   }
 
   void addImage(Image image) {
@@ -50,6 +54,25 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
       return;
     }
 
-    state = state.copyWith(images: [...state.images, image]);
+    Todo todo = state.todo.copyWith(images: [...state.todo.images, image]);
+    
+    state = state.copyWith(todo: todo);
+  }
+}
+
+class DetailTodoState {
+  final Todo todo;
+  final Image? image;
+
+  DetailTodoState({required this.todo, this.image});
+
+  DetailTodoState copyWith({
+    Todo? todo,
+    Image? image,
+    String? title,
+    Set<Tag>? tags,
+    List<Image>? images,
+  }) {
+    return DetailTodoState(todo: todo ?? this.todo, image: image ?? this.image);
   }
 }
