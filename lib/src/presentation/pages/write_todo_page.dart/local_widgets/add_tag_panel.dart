@@ -68,23 +68,20 @@ class _SelectTag extends ConsumerWidget {
       detailTodoNotifierProvider.select((value) => value.tags),
     );
 
-    return Wrap(
-      spacing: 8,
+    return _TagWrap(
       children:
-          tags.map((tag) {
-            return Chip(
-              label: Text(tag.name),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-              ),
-              clipBehavior: Clip.hardEdge,
-              onDeleted: () {
-                ref
-                    .read(detailTodoNotifierProvider.notifier)
-                    .unselectedTag(tag);
-              },
-            );
-          }).toList(),
+          tags
+              .map(
+                (tag) => _TagChip(
+                  tag: tag,
+                  onDeleted: () {
+                    ref
+                        .read(detailTodoNotifierProvider.notifier)
+                        .unselectedTag(tag);
+                  },
+                ),
+              )
+              .toList(),
     );
   }
 }
@@ -106,31 +103,20 @@ class _AllTag extends ConsumerWidget {
         ),
         tags.when(
           data:
-              (data) => SizedBox(
-                width: double.infinity,
-                child: Wrap(
-                  runAlignment: WrapAlignment.start,
-                  spacing: 8,
-                  children:
-                      data
-                          .map(
-                            (e) => GestureDetector(
-                              child: Chip(
-                                label: Text(e.name),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                onDeleted: () => _deleteTag(ref, e, context),
-                              ),
-                              onTap:
-                                  () => ref
-                                      .read(detailTodoNotifierProvider.notifier)
-                                      .selectedTag(e),
-                            ),
-                          )
-                          .toList(),
-                ),
+              (data) => _TagWrap(
+                children:
+                    data
+                        .map(
+                          (tag) => _TagChip(
+                            tag: tag,
+                            onDeleted: () => _deleteTag(ref, tag, context),
+                            onTap:
+                                () => ref
+                                    .read(detailTodoNotifierProvider.notifier)
+                                    .selectedTag(tag),
+                          ),
+                        )
+                        .toList(),
               ),
           error: (_, __) => Container(),
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -165,5 +151,44 @@ class _AllTag extends ConsumerWidget {
             (_) => ErrorDialog(title: '태그 삭제 실패', content: '태그를 삭제할 수 없습니다.'),
       );
     }
+  }
+}
+
+class _TagChip extends StatelessWidget {
+  final Tag tag;
+  final VoidCallback? onDeleted;
+  final VoidCallback? onTap;
+
+  const _TagChip({super.key, required this.tag, this.onDeleted, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Chip(
+        label: Text(tag.name),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        clipBehavior: Clip.hardEdge,
+        onDeleted: onDeleted,
+      ),
+    );
+  }
+}
+
+class _TagWrap extends StatelessWidget {
+  final List<Widget> children;
+
+  const _TagWrap({super.key, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        runAlignment: WrapAlignment.start,
+        spacing: 8,
+        children: children,
+      ),
+    );
   }
 }
