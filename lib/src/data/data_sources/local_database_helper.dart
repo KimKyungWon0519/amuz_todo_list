@@ -1,5 +1,4 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
-import 'package:amuz_todo_list/src/domain/model/tag.dart' as Domain;
 import 'package:amuz_todo_list/src/domain/model/todo.dart' as Domain;
 
 class LocalDatabaseHelper {
@@ -35,11 +34,11 @@ class LocalDatabaseHelper {
     return deleteID != 0;
   }
 
-  Future<bool> insertTag(Domain.Tag tag) async {
+  Future<bool> insertTag(TagsCompanion tagsCompanion) async {
     try {
       await _localDatabase
           .into(_localDatabase.tags)
-          .insert(TagsCompanion.insert(name: tag.name));
+          .insert(tagsCompanion);
 
       return true;
     } catch (e) {

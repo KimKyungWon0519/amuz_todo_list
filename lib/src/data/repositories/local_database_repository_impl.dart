@@ -34,7 +34,7 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
     if (findTag != null) return false;
 
-    return _localDatabaseHelper.insertTag(tag);
+    return _localDatabaseHelper.insertTag(tag.toDataCompanion());
   }
 
   @override
