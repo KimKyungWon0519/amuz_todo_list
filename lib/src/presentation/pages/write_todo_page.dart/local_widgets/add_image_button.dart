@@ -20,9 +20,7 @@ class AddImageButton extends ConsumerWidget {
         if (isPathEmpty) {
           _addImage(context);
         } else {
-          ref
-              .read(detailTodoNotifierProvider.notifier)
-              .selectImage(image!);
+          ref.read(detailTodoNotifierProvider.notifier).selectImage(image!);
         }
       },
       child: Container(
@@ -73,28 +71,26 @@ class _AddImageBottomSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(title: Text('사진 촬영'), onTap: () => _addImage(context, ref)),
+          ListTile(
+            title: Text('사진 촬영'),
+            onTap: () => _addImage(context, ref, ImageSource.camera),
+          ),
           ListTile(
             title: Text('사진 가져오기'),
-            onTap: () async {
-              final ImagePicker picker = ImagePicker();
-              final XFile? image = await picker.pickImage(
-                source: ImageSource.gallery,
-              );
-
-              if (image != null) {
-                context.pop();
-              }
-            },
+            onTap: () => _addImage(context, ref, ImageSource.gallery),
           ),
         ],
       ),
     );
   }
 
-  void _addImage(BuildContext context, WidgetRef ref) async {
+  void _addImage(
+    BuildContext context,
+    WidgetRef ref,
+    ImageSource imageSource,
+  ) async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await picker.pickImage(source: imageSource);
 
     if (image != null) {
       Domain.Image domainImage = Domain.Image(url: image.path);
