@@ -18,6 +18,7 @@ class AddImageButtonsRow extends ConsumerWidget {
       builder: (context, constraints) {
         double itemSize = constraints.maxWidth / 5.5;
 
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           spacing: 8,
@@ -29,7 +30,7 @@ class AddImageButtonsRow extends ConsumerWidget {
                 image: index < images.length ? images[index] : null,
               ),
             ),
-            if (images.length + (images.length < 5 ? 1 : 0) < 6) Spacer(),
+            if (images.length + (images.length < 5 ? 1 : 0) < 5) Spacer(),
           ],
         );
       },
