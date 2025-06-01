@@ -1,5 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
-import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,7 +12,7 @@ class SelectTag extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Set<Tag> tags = ref.watch(
-      detailTodoNotifierProvider.select((value) => value.todo.tags),
+      writeTodoNotifierProvider.select((value) => value.todo.tags),
     );
 
     return TagWrap(
@@ -23,7 +23,7 @@ class SelectTag extends ConsumerWidget {
                   tag: tag,
                   onDeleted: () {
                     ref
-                        .read(detailTodoNotifierProvider.notifier)
+                        .read(writeTodoNotifierProvider.notifier)
                         .unselectedTag(tag);
                   },
                 ),

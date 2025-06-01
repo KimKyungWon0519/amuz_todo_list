@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,13 +20,13 @@ class AddImageButton extends ConsumerWidget {
         if (isPathEmpty) {
           _addImage(context);
         } else {
-          ref.read(detailTodoNotifierProvider.notifier).selectImage(image!);
+          ref.read(writeTodoNotifierProvider.notifier).selectImage(image!);
         }
       },
       child: Consumer(
         builder: (context, ref, child) {
           final Domain.Image? selectedImage = ref.watch(
-            detailTodoNotifierProvider.select((value) => value.selectedImage),
+            writeTodoNotifierProvider.select((value) => value.selectedImage),
           );
 
           bool isSelected = selectedImage != null && selectedImage == image;
@@ -108,7 +108,7 @@ class _AddImageBottomSheet extends ConsumerWidget {
     if (image != null) {
       Domain.Image domainImage = Domain.Image(url: image.path);
 
-      ref.read(detailTodoNotifierProvider.notifier).addImage(domainImage);
+      ref.read(writeTodoNotifierProvider.notifier).addImage(domainImage);
 
       context.pop();
     }

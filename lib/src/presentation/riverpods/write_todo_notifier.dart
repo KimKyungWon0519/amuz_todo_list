@@ -5,18 +5,18 @@ import 'package:amuz_todo_list/src/domain/repositories/local_database_repository
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'detail_todo_notifier.g.dart';
+part 'write_todo_notifier.g.dart';
 
 @Riverpod(keepAlive: false)
-class DetailTodoNotifier extends _$DetailTodoNotifier {
+class WriteTodoNotifier extends _$WriteTodoNotifier {
   late final LocalDatabaseRepository _localDatabaseRepository;
 
-  DetailTodoNotifier()
+  WriteTodoNotifier()
     : _localDatabaseRepository = GetIt.I<LocalDatabaseRepository>();
 
   @override
-  DetailTodoState build() {
-    return DetailTodoState(todo: Todo.empty());
+  WriteTodoState build() {
+    return WriteTodoState(todo: Todo.empty());
   }
 
   void setTitle(String title) {
@@ -79,20 +79,20 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   }
 }
 
-class DetailTodoState {
+class WriteTodoState {
   final Todo todo;
   final Image? selectedImage;
 
-  DetailTodoState({required this.todo, this.selectedImage});
+  WriteTodoState({required this.todo, this.selectedImage});
 
-  DetailTodoState copyWith({Todo? todo, Image? selectedImage}) {
-    return DetailTodoState(
+  WriteTodoState copyWith({Todo? todo, Image? selectedImage}) {
+    return WriteTodoState(
       todo: todo ?? this.todo,
       selectedImage: selectedImage ?? this.selectedImage,
     );
   }
 
-  DetailTodoState removeSelectedImage() {
-    return DetailTodoState(todo: todo, selectedImage: null);
+  WriteTodoState removeSelectedImage() {
+    return WriteTodoState(todo: todo, selectedImage: null);
   }
 }

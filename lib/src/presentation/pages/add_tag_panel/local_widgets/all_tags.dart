@@ -1,7 +1,7 @@
 import 'package:amuz_todo_list/src/core/constants/app_constant.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/presentation/pages/add_tag_panel/add_tag_panel.dart';
-import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ part 'all_tags.g.dart';
 @riverpod
 Stream<Set<Tag>> getAllTagsExcludingSelected(Ref ref) async* {
   final Set<Tag> selectedTag = ref.watch(
-    detailTodoNotifierProvider.select((value) => value.todo.tags),
+    writeTodoNotifierProvider.select((value) => value.todo.tags),
   );
 
   final Stream<Set<Tag>> allTagsStream = ref.watch(watchAllTagsProvider.stream);
@@ -51,7 +51,7 @@ class AllTag extends ConsumerWidget {
                             onDeleted: () => _deleteTag(ref, tag, context),
                             onTap:
                                 () => ref
-                                    .read(detailTodoNotifierProvider.notifier)
+                                    .read(writeTodoNotifierProvider.notifier)
                                     .selectedTag(tag),
                           ),
                         )
@@ -66,7 +66,7 @@ class AllTag extends ConsumerWidget {
 
   void _deleteTag(WidgetRef ref, Tag tag, BuildContext context) async {
     bool result = await ref
-        .read(detailTodoNotifierProvider.notifier)
+        .read(writeTodoNotifierProvider.notifier)
         .deleteTag(tag);
 
     if (!result && context.mounted) {
@@ -109,7 +109,7 @@ class _AddTagField extends HookConsumerWidget {
     BuildContext context,
   ) async {
     bool result = await ref
-        .read(detailTodoNotifierProvider.notifier)
+        .read(writeTodoNotifierProvider.notifier)
         .addTag(value);
 
     if (!result && context.mounted) {

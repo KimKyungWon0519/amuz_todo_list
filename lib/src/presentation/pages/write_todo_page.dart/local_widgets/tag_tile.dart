@@ -1,5 +1,5 @@
 import 'package:amuz_todo_list/src/presentation/pages/add_tag_panel/add_tag_panel.dart';
-import 'package:amuz_todo_list/src/presentation/riverpods/detail_todo_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,7 +14,7 @@ class TagTile extends StatelessWidget {
         trailing: Consumer(
           builder: (context, ref, child) {
             final int tagCount = ref.watch(
-              detailTodoNotifierProvider.select((value) => value.todo.tags.length),
+              writeTodoNotifierProvider.select((value) => value.todo.tags.length),
             );
 
             return Text('$tagCount 개');
