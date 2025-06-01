@@ -17,7 +17,7 @@ part 'all_tags.g.dart';
 @riverpod
 Stream<Set<Tag>> getAllTagsExcludingSelected(Ref ref) async* {
   final Set<Tag> selectedTag = ref.watch(
-    detailTodoNotifierProvider.select((value) => value.tags),
+    detailTodoNotifierProvider.select((value) => value.todo.tags),
   );
 
   final Stream<Set<Tag>> allTagsStream = ref.watch(watchAllTagsProvider.stream);

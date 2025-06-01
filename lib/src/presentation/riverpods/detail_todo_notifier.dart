@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/image.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
@@ -14,12 +15,14 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     : _localDatabaseRepository = GetIt.I<LocalDatabaseRepository>();
 
   @override
-  Todo build() {
-    return Todo.empty();
+  DetailTodoState build() {
+    return DetailTodoState(todo: Todo.empty());
   }
 
   void setTitle(String title) {
-    state = state.copyWith(title: title);
+    Todo todo = state.todo.copyWith(title: title);
+
+    state = state.copyWith(todo: todo);
   }
 
   Future<bool> addTag(String name) {
@@ -37,10 +40,59 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
   }
 
   void selectedTag(Tag tag) {
-    state = state.copyWith(tags: {...state.tags, tag});
+    Todo todo = state.todo.copyWith(tags: {...state.todo.tags, tag});
+
+    state = state.copyWith(todo: todo);
   }
 
   void unselectedTag(Tag tag) {
-    state = state.copyWith(tags: state.tags.toSet()..remove(tag));
+    Todo todo = state.todo.copyWith(tags: state.todo.tags.toSet()..remove(tag));
+
+    state = state.copyWith(todo: todo);
+  }
+
+  void addImage(Image image) {
+    if (image.url.isEmpty) {
+      return;
+    }
+
+    Todo todo = state.todo.copyWith(images: [...state.todo.images, image]);
+
+    state = state.copyWith(todo: todo);
+    state = state.copyWith(selectedImage: image);
+  }
+
+  void selectImage(Image image) {
+    state = state.copyWith(selectedImage: image);
+  }
+
+  void deleteImage(Image image) {
+    Todo todo = state.todo.copyWith(
+      images: state.todo.images.toList()..remove(image),
+    );
+
+    if (state.selectedImage == image) {
+      state = state.removeSelectedImage();
+    }
+
+    state = state.copyWith(todo: todo);
+  }
+}
+
+class DetailTodoState {
+  final Todo todo;
+  final Image? selectedImage;
+
+  DetailTodoState({required this.todo, this.selectedImage});
+
+  DetailTodoState copyWith({Todo? todo, Image? selectedImage}) {
+    return DetailTodoState(
+      todo: todo ?? this.todo,
+      selectedImage: selectedImage ?? this.selectedImage,
+    );
+  }
+
+  DetailTodoState removeSelectedImage() {
+    return DetailTodoState(todo: todo, selectedImage: null);
   }
 }
