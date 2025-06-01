@@ -77,6 +77,12 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
 
     state = state.copyWith(todo: todo);
   }
+
+  Future<bool> saveTodo() {
+    Todo todo = state.todo;
+
+    return _localDatabaseRepository.insertTodo(todo);
+  }
 }
 
 class WriteTodoState {
