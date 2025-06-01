@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
+import 'package:drift/drift.dart';
 
 class LocalDatabaseHelper {
   late final LocalDatabase _localDatabase;
@@ -73,6 +74,18 @@ class LocalDatabaseHelper {
     } catch (e) {
       return false;
     }
+  }
+
+
+  Future<List<Tag>> getAllTagsByTodoId(int todoId) async {
+    final List<TypedResult> result = await (_localDatabase.select(_localDatabase.tags).join([
+      innerJoin(
+        _localDatabase.todosAndTags,
+        _localDatabase.todosAndTags.tagId.equalsExp(_localDatabase.tags.id),
+      ),
+    ])..where(_localDatabase.todosAndTags.todoId.equals(todoId))).get();
+
+    return result.map((row) => row.readTable(_localDatabase.tags)).toList();
   }
 
   Future<T> runInTransaction<T>(Future<T> Function() action) async {
