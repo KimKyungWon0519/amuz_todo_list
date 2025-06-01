@@ -11,6 +11,7 @@ extension DomainTableExtension on Domain.Todo {
       title: Value(title),
       createDate: Value(createAt),
       updateDate: Value(updateAt),
+      isDone: Value(isDone),
     );
   }
 }
@@ -24,6 +25,7 @@ extension DataTodoExtension on Todo {
       updateAt: updateDate,
       tags: tags,
       images: images,
+      isDone: isDone,
     );
   }
 }

@@ -15,7 +15,7 @@ class TodoListView extends ConsumerWidget {
         return ListView.builder(
           itemCount: todos.length,
           itemBuilder: (context, index) {
-            return TodoTile();
+            return TodoTile(todo: todos[index]);
           },
         );
       },
