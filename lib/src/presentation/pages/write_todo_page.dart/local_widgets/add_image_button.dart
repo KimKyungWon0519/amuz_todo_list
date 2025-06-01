@@ -23,21 +23,34 @@ class AddImageButton extends ConsumerWidget {
           ref.read(detailTodoNotifierProvider.notifier).selectImage(image!);
         }
       },
-      child: Container(
-        width: size.width,
-        height: size.height,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey, width: 2),
-          image:
-              !isPathEmpty
-                  ? DecorationImage(image: FileImage(File(image!.url)))
-                  : null,
-        ),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final Domain.Image? selectedImage = ref.watch(
+            detailTodoNotifierProvider.select((value) => value.selectedImage),
+          );
 
-        clipBehavior: Clip.hardEdge,
-        child: isPathEmpty ? const _AddIcon() : null,
+          bool isSelected = selectedImage != null && selectedImage == image;
+
+          return Container(
+            width: size.width,
+            height: size.height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected ? Colors.blue : Colors.grey,
+                width: 2,
+              ),
+              image:
+                  !isPathEmpty
+                      ? DecorationImage(image: FileImage(File(image!.url)))
+                      : null,
+            ),
+
+            clipBehavior: Clip.hardEdge,
+            child: isPathEmpty ? const _AddIcon() : null,
+          );
+        },
       ),
     );
   }
