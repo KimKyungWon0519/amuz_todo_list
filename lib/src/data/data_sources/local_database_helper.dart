@@ -43,16 +43,38 @@ class LocalDatabaseHelper {
     }
   }
 
-  Future<bool> insertTodo(TodosCompanion todo) async {
+  Future<int> insertTodo(TodosCompanion todo) async {
     try {
-      await _localDatabase.into(_localDatabase.todos).insert(todo);
-      
+      return await _localDatabase.into(_localDatabase.todos).insert(todo);
+    } catch (e) {
+      return -1;
+    }
+  }
+
+  Future<bool> insertTodosAndTags(
+    TodosAndTagsCompanion todosAndTagsCompanion,
+  ) async {
+    try {
+      await _localDatabase
+          .into(_localDatabase.todosAndTags)
+          .insert(todosAndTagsCompanion);
+
       return true;
     } catch (e) {
       return false;
     }
   }
-  
+
+  Future<bool> insertImage(ImagesCompanion image) async {
+    try {
+      await _localDatabase.into(_localDatabase.images).insert(image);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<T> runInTransaction<T>(Future<T> Function() action) async {
     return await _localDatabase.transaction(action);
   }

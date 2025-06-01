@@ -1,10 +1,13 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
 import 'package:amuz_todo_list/src/data/data_sources/local_database_helper.dart';
+import 'package:amuz_todo_list/src/data/mapper/image_mapper.dart';
 import 'package:amuz_todo_list/src/data/mapper/tag_mapper.dart';
 import 'package:amuz_todo_list/src/data/mapper/todo_mapper.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart' as Domain;
 import 'package:amuz_todo_list/src/domain/model/todo.dart' as Domain;
+import 'package:amuz_todo_list/src/domain/model/image.dart' as Domain;
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
+import 'package:drift/drift.dart';
 
 class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   late final LocalDatabaseHelper _localDatabaseHelper;
@@ -47,6 +50,39 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Future<bool> insertTodo(Domain.Todo todo) {
-    return _localDatabaseHelper.insertTodo(todo.toDataCompanion());
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          int todoID = await _localDatabaseHelper.insertTodo(
+            todo.toDataCompanion(),
+          );
+
+          if (todoID == -1) throw Exception('Failed to insert todo');
+
+          for (final Domain.Tag tag in todo.tags) {
+            bool isSuccess = await _localDatabaseHelper.insertTodosAndTags(
+              TodosAndTagsCompanion(
+                todoId: Value(todoID),
+                tagId: Value(tag.id!),
+              ),
+            );
+
+            if (!isSuccess) {
+              throw Exception('Failed to insert todo and tag');
+            }
+          }
+
+          for (final Domain.Image image in todo.images) {
+            bool isSuccess = await _localDatabaseHelper.insertImage(
+              image.toDataCompanion(todoID),
+            );
+
+            if (!isSuccess) {
+              throw Exception('Failed to insert image');
+            }
+          }
+
+          return true;
+        })
+        .catchError((_) => false);
   }
 }
