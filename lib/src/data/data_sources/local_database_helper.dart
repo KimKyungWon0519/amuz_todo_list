@@ -52,6 +52,51 @@ class LocalDatabaseHelper {
     }
   }
 
+  Stream<List<(Todo, List<Tag>, List<Image>)>> watchAllTodos() {
+    final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
+        .select(_localDatabase.todos)
+        .join([
+          leftOuterJoin(
+            _localDatabase.todosAndTags,
+            _localDatabase.todosAndTags.todoId.equalsExp(
+              _localDatabase.todos.id,
+            ),
+          ),
+          leftOuterJoin(
+            _localDatabase.tags,
+            _localDatabase.tags.id.equalsExp(_localDatabase.todosAndTags.tagId),
+          ),
+          leftOuterJoin(
+            _localDatabase.images,
+            _localDatabase.images.todoId.equalsExp(_localDatabase.todos.id),
+          ),
+        ]);
+
+    return query.watch().map((rows) {
+      final Map<int, (Todo, List<Tag>, List<Image>)> groupedMap = {};
+
+      for (final row in rows) {
+        final Todo todo = row.readTable(_localDatabase.todos);
+        final Tag? tag = row.readTableOrNull(_localDatabase.tags);
+        final Image? image = row.readTableOrNull(_localDatabase.images);
+
+        final entry = groupedMap.putIfAbsent(
+          todo.id,
+          () => (todo, <Tag>[], <Image>[]),
+        );
+
+        if (tag != null) {
+          entry.$2.add(tag);
+        }
+        if (image != null) {
+          entry.$3.add(image);
+        }
+      }
+
+      return groupedMap.values.toList();
+    });
+  }
+
   Future<bool> insertTodosAndTags(
     TodosAndTagsCompanion todosAndTagsCompanion,
   ) async {
@@ -74,22 +119,6 @@ class LocalDatabaseHelper {
     } catch (e) {
       return false;
     }
-  }
-
-  Future<List<Image>> getAllImagesByTodoId(int todoId) async {
-    return await (_localDatabase.select(_localDatabase.images)
-      ..where((item) => item.todoId.equals(todoId))).get();
-  }
-
-  Future<List<Tag>> getAllTagsByTodoId(int todoId) async {
-    final List<TypedResult> result = await (_localDatabase.select(_localDatabase.tags).join([
-      innerJoin(
-        _localDatabase.todosAndTags,
-        _localDatabase.todosAndTags.tagId.equalsExp(_localDatabase.tags.id),
-      ),
-    ])..where(_localDatabase.todosAndTags.todoId.equals(todoId))).get();
-
-    return result.map((row) => row.readTable(_localDatabase.tags)).toList();
   }
 
   Future<T> runInTransaction<T>(Future<T> Function() action) async {

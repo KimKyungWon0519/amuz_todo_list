@@ -85,4 +85,22 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
         })
         .catchError((_) => false);
   }
+
+  @override
+  Stream<List<Domain.Todo>> watchAllTodos() {
+    return _localDatabaseHelper.watchAllTodos().map((values) {
+      return values.map((value) {
+        final Set<Domain.Tag> tags =
+            value.$2.map((tag) => tag.toDomainModel()).toSet();
+        final List<Domain.Image> images =
+            value.$3.map((image) => image.toDomainModel()).toList();
+        final Domain.Todo todo = value.$1.toDomainModel(
+          tags: tags,
+          images: images,
+        );
+
+        return todo;
+      }).toList();
+    });
+  }
 }
