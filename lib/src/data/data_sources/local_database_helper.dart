@@ -76,6 +76,10 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<List<Image>> getAllImagesByTodoId(int todoId) async {
+    return await (_localDatabase.select(_localDatabase.images)
+      ..where((item) => item.todoId.equals(todoId))).get();
+  }
 
   Future<List<Tag>> getAllTagsByTodoId(int todoId) async {
     final List<TypedResult> result = await (_localDatabase.select(_localDatabase.tags).join([
