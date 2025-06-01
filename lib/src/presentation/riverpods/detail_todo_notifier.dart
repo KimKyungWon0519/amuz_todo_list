@@ -59,6 +59,7 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
     Todo todo = state.todo.copyWith(images: [...state.todo.images, image]);
 
     state = state.copyWith(todo: todo);
+    state = state.copyWith(selectedImage: image);
   }
 
   void selectImage(Image image) {
@@ -70,7 +71,11 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
       images: state.todo.images.toList()..remove(image),
     );
 
-    state = state.copyWith(todo: todo, selectedImage: null);
+    if (state.selectedImage == image) {
+      state = state.removeSelectedImage();
+    }
+
+    state = state.copyWith(todo: todo);
   }
 }
 
@@ -85,5 +90,9 @@ class DetailTodoState {
       todo: todo ?? this.todo,
       selectedImage: selectedImage ?? this.selectedImage,
     );
+  }
+
+  DetailTodoState removeSelectedImage() {
+    return DetailTodoState(todo: todo, selectedImage: null);
   }
 }
