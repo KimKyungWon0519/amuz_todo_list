@@ -52,4 +52,8 @@ class LocalDatabaseHelper {
       return false;
     }
   }
+  
+  Future<T> runInTransaction<T>(Future<T> Function() action) async {
+    return await _localDatabase.transaction(action);
+  }
 }
