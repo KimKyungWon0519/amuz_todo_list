@@ -1,6 +1,7 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
 import 'package:amuz_todo_list/src/data/data_sources/local_database_helper.dart';
 import 'package:amuz_todo_list/src/data/mapper/tag_mapper.dart';
+import 'package:amuz_todo_list/src/data/mapper/todo_mapper.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart' as Domain;
 import 'package:amuz_todo_list/src/domain/model/todo.dart' as Domain;
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
@@ -46,6 +47,6 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Future<bool> insertTodo(Domain.Todo todo) {
-    return _localDatabaseHelper.insertTodo(todo);
+    return _localDatabaseHelper.insertTodo(todo.toDataCompanion());
   }
 }

@@ -1,5 +1,4 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
-import 'package:amuz_todo_list/src/domain/model/todo.dart' as Domain;
 
 class LocalDatabaseHelper {
   late final LocalDatabase _localDatabase;
@@ -36,9 +35,7 @@ class LocalDatabaseHelper {
 
   Future<bool> insertTag(TagsCompanion tagsCompanion) async {
     try {
-      await _localDatabase
-          .into(_localDatabase.tags)
-          .insert(tagsCompanion);
+      await _localDatabase.into(_localDatabase.tags).insert(tagsCompanion);
 
       return true;
     } catch (e) {
@@ -46,16 +43,10 @@ class LocalDatabaseHelper {
     }
   }
 
-  Future<bool> insertTodo(Domain.Todo todo) async {
+  Future<bool> insertTodo(TodosCompanion todo) async {
     try {
-      await _localDatabase
-          .into(_localDatabase.todos)
-          .insert(
-            TodosCompanion.insert(
-              title: todo.title,
-              createDate: todo.createAt,
-            ),
-          );
+      await _localDatabase.into(_localDatabase.todos).insert(todo);
+      
       return true;
     } catch (e) {
       return false;
