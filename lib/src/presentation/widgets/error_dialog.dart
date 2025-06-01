@@ -18,3 +18,14 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 }
+
+showErrorDialog(
+  BuildContext context, {
+  required String title,
+  required String content,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) => ErrorDialog(title: title, content: content),
+  );
+}

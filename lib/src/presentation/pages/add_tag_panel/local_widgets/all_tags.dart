@@ -70,11 +70,7 @@ class AllTag extends ConsumerWidget {
         .deleteTag(tag);
 
     if (!result && context.mounted) {
-      showDialog(
-        context: context,
-        builder:
-            (_) => ErrorDialog(title: '태그 삭제 실패', content: '태그를 삭제할 수 없습니다.'),
-      );
+      showErrorDialog(context, title: '태그 삭제 실패', content: '태그를 삭제할 수 없습니다.');
     }
   }
 }
@@ -113,11 +109,7 @@ class _AddTagField extends HookConsumerWidget {
         .addTag(value);
 
     if (!result && context.mounted) {
-      showDialog(
-        context: context,
-        builder:
-            (_) => ErrorDialog(title: '태그 추가 실패', content: '이미 존재하는 태그입니다.'),
-      );
+      showErrorDialog(context, title: '태그 추가 실패', content: '이미 존재하는 태그입니다.');
 
       return false;
     }
