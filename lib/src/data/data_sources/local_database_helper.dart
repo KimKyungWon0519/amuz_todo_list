@@ -1,5 +1,6 @@
 import 'package:amuz_todo_list/src/data/data_sources/local_database.dart';
 import 'package:amuz_todo_list/src/domain/model/tag.dart' as Domain;
+import 'package:amuz_todo_list/src/domain/model/todo.dart' as Domain;
 
 class LocalDatabaseHelper {
   late final LocalDatabase _localDatabase;
@@ -40,6 +41,22 @@ class LocalDatabaseHelper {
           .into(_localDatabase.tags)
           .insert(TagsCompanion.insert(name: tag.name));
 
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> insertTodo(Domain.Todo todo) async {
+    try {
+      await _localDatabase
+          .into(_localDatabase.todos)
+          .insert(
+            TodosCompanion.insert(
+              title: todo.title,
+              createDate: todo.createAt,
+            ),
+          );
       return true;
     } catch (e) {
       return false;
