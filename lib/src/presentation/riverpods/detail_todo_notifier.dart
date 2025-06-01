@@ -21,7 +21,7 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
 
   void setTitle(String title) {
     Todo todo = state.todo.copyWith(title: title);
-    
+
     state = state.copyWith(todo: todo);
   }
 
@@ -63,6 +63,14 @@ class DetailTodoNotifier extends _$DetailTodoNotifier {
 
   void selectImage(Image image) {
     state = state.copyWith(selectedImage: image);
+  }
+
+  void deleteImage(Image image) {
+    Todo todo = state.todo.copyWith(
+      images: state.todo.images.toList()..remove(image),
+    );
+
+    state = state.copyWith(todo: todo, selectedImage: null);
   }
 }
 

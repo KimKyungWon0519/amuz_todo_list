@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:amuz_todo_list/src/domain/model/image.dart' as Domain;
 
 import 'add_image_button.dart';
+import 'image_delete_button.dart';
 
 class AddImageButtonsRow extends ConsumerWidget {
   const AddImageButtonsRow({super.key});
@@ -18,16 +19,22 @@ class AddImageButtonsRow extends ConsumerWidget {
       builder: (context, constraints) {
         double itemSize = constraints.maxWidth / 5.5;
 
-
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 8,
           children: [
             ...List.generate(
               images.length + (images.length < 5 ? 1 : 0),
-              (index) => AddImageButton(
-                size: Size(itemSize, itemSize),
-                image: index < images.length ? images[index] : null,
+              (index) => Column(
+                children: [
+                  AddImageButton(
+                    image: index < images.length ? images[index] : null,
+                    size: Size(itemSize, itemSize),
+                  ),
+                  if (index < images.length)
+                    ImageDeleteButton(image: images[index]),
+                ],
               ),
             ),
             if (images.length + (images.length < 5 ? 1 : 0) < 5) Spacer(),
