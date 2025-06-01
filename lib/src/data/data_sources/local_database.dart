@@ -1,7 +1,7 @@
-import 'package:amuz_todo_list/src/data/model/images.dart';
-import 'package:amuz_todo_list/src/data/model/tags.dart';
-import 'package:amuz_todo_list/src/data/model/todos.dart';
-import 'package:amuz_todo_list/src/data/model/todos_and_tags.dart';
+import 'package:amuz_todo_list/src/data/tables/images.dart';
+import 'package:amuz_todo_list/src/data/tables/tags.dart';
+import 'package:amuz_todo_list/src/data/tables/todos.dart';
+import 'package:amuz_todo_list/src/data/tables/todos_and_tags.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';

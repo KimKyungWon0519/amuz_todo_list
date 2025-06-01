@@ -1,5 +1,5 @@
-import 'package:amuz_todo_list/src/data/model/tags.dart';
-import 'package:amuz_todo_list/src/data/model/todos.dart';
+import 'package:amuz_todo_list/src/data/tables/tags.dart';
+import 'package:amuz_todo_list/src/data/tables/todos.dart';
 import 'package:drift/drift.dart';
 
 class TodosAndTags extends Table {
