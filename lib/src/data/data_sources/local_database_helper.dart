@@ -186,8 +186,10 @@ class LocalDatabaseHelper {
   }
 
   Future<List<int>> getAllTempTodoIds() async {
-    return await _localDatabase.select(_localDatabase.tempTodos)
-        .map((tempTodo) => tempTodo.todoId).get();
+    return await _localDatabase
+        .select(_localDatabase.tempTodos)
+        .map((tempTodo) => tempTodo.todoId)
+        .get();
   }
 
   Future printTable() async {
@@ -201,6 +203,10 @@ class LocalDatabaseHelper {
 
     await _localDatabase.images.select().get().then((images) {
       print('Images:$images');
+    });
+
+    await _localDatabase.tempTodos.select().get().then((tempTodos) {
+      print('TempTodos:$tempTodos');
     });
   }
 
