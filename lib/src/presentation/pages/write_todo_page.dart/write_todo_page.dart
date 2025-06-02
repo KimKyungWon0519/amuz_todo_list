@@ -20,9 +20,7 @@ class WriteTodoPage extends StatelessWidget {
       Future.delayed(Duration.zero, () {
         ProviderContainer container = ProviderScope.containerOf(context);
 
-        container
-            .read(writeTodoNotifierProvider.notifier)
-            .setTitle(todo!.title);
+        container.read(writeTodoNotifierProvider.notifier).setTodo(todo!);
       });
     }
 
