@@ -111,6 +111,12 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
   Future<bool> saveTodoAndRemoveTempTodo(Todo todo) async {
     return _localDatabaseRepository.saveTodoAndRemoveTempTodo(todo);
   }
+  
+  void setDueDate(DateTime dueDate) {
+    Todo todo = state.todo.copyWith(dueDate: dueDate);
+
+    state = state.copyWith(todo: todo);
+  }
 }
 
 enum WriteTodoMode { create, edit, loadTemp }

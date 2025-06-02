@@ -7,4 +7,5 @@ class Todos extends Table {
   BoolColumn get isDone => boolean().withDefault(const Constant(false))();
   DateTimeColumn get createDate => dateTime()();
   DateTimeColumn get updateDate => dateTime().nullable()();
+  DateTimeColumn get dueDate => dateTime()();
 }

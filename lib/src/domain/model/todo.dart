@@ -14,8 +14,9 @@ abstract class Todo with _$Todo {
     required DateTime createAt,
     @Default(false) bool isDone,
     DateTime? updateAt,
+    required DateTime dueDate,
   }) = _Todo;
 
   factory Todo.empty() =>
-      Todo(title: '', tags: {}, images: [], createAt: DateTime.now());
+      Todo(title: '', tags: {}, images: [], createAt: DateTime.now(), dueDate: DateTime.now().add(const Duration(days: 1)));
 }

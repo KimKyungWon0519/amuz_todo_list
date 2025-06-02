@@ -16,6 +16,19 @@ class CreateAt extends ConsumerWidget {
   }
 }
 
+class DueDateAt extends ConsumerWidget {
+  const DueDateAt({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final DateTime dueDate = ref.watch(
+      detailsTodoNotifierProvider.select((value) => value.dueDate),
+    );
+
+    return _DateText(type: "마감일", date: dueDate);
+  }
+}
+
 class UpdateAt extends ConsumerWidget {
   const UpdateAt({super.key});
 

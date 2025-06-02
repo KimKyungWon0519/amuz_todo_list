@@ -4,6 +4,7 @@ import 'package:amuz_todo_list/src/presentation/riverpods/todo_list_notifier.dar
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class TodoTile extends StatelessWidget {
   final Todo todo;
@@ -19,6 +20,7 @@ class TodoTile extends StatelessWidget {
           decoration: todo.isDone ? TextDecoration.lineThrough : null,
         ),
       ),
+      subtitle: Text('마감일 : ${DateFormat.yMd('ko').format(todo.dueDate)}'),
       trailing: Consumer(
         builder: (context, ref, child) {
           return Checkbox(

@@ -37,6 +37,7 @@ class DetailsTodoPage extends HookWidget {
               Row(children: [Expanded(child: TodoTitle()), TodoCheckbox()]),
               SizedBox(height: 8),
               CreateAt(),
+              DueDateAt(),
               UpdateAt(),
               Container(
                 height: 50,
