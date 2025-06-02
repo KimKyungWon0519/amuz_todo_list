@@ -12,3 +12,10 @@ Stream<Set<Tag>> watchAllTags(Ref ref) async* {
   
   yield* repository.watchAllTags();
 }
+
+@Riverpod(keepAlive: false)
+Future<List<int>> getAllTempTodoIds(Ref ref) async {
+  final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
+  
+  return await repository.getAllTempTodoIds();
+}
