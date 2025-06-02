@@ -126,7 +126,7 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
           if (!isSuccess) throw Exception('Failed to delete todos and tags');
 
           for (final Domain.Image image in todo.images) {
-            await _localDatabaseHelper.deleteImage(image.id!);
+            isSuccess = await _localDatabaseHelper.deleteImage(image.id!);
 
             if (!isSuccess) throw Exception('Failed to delete image');
           }
