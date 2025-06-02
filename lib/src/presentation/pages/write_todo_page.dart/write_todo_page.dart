@@ -26,7 +26,9 @@ class WriteTodoPage extends HookWidget {
         ProviderContainer container = ProviderScope.containerOf(context);
 
         if (todo != null) {
-          container.read(writeTodoNotifierProvider.notifier).setTodo(todo!, WriteTodoMode.edit);
+          container
+              .read(writeTodoNotifierProvider.notifier)
+              .setTodo(todo!, WriteTodoMode.edit);
         } else {
           final List<int> todoId = await container.read(
             getAllTempTodoIdsProvider.future,
@@ -41,7 +43,7 @@ class WriteTodoPage extends HookWidget {
               if (selectedTodo != null) {
                 container
                     .read(writeTodoNotifierProvider.notifier)
-                    .setTodo(selectedTodo);
+                    .setTodo(selectedTodo, WriteTodoMode.loadTemp);
               }
             }
           }

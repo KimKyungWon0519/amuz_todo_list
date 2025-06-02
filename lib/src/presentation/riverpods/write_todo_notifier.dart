@@ -19,7 +19,7 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     return WriteTodoState(todo: Todo.empty());
   }
 
-  void setTodo(Todo todo, [WriteTodoMode mode = WriteTodoMode.create]) {
+  void setTodo(Todo todo, WriteTodoMode mode) {
     state = state.copyWith(todo: todo, mode: mode);
   }
 

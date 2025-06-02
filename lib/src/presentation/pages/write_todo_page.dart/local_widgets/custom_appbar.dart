@@ -16,7 +16,7 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
     );
 
     return AppBar(
-      title: Text("ToDo ${todo == WriteTodoMode.create ? '작성' : '수정'}"),
+      title: Text("ToDo ${todo != WriteTodoMode.edit ? '작성' : '수정'}"),
       actions: [SaveTempButton(), SaveButton()],
     );
   }
