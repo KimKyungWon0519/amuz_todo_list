@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'save_button.dart';
+import 'save_temp_button.dart';
 
 class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
   const CustomAppbar({super.key});
@@ -17,7 +18,7 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text("ToDo ${todo.id != null ? "수정" : "추가"}"),
       actions: [
-        TextButton(onPressed: null, child: Text('임시저장 | 0')),
+        SaveTempButton(),
         SaveButton(),
       ],
     );
