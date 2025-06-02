@@ -15,7 +15,7 @@ class ImagePreview extends ConsumerWidget {
     );
 
     return selectedImage != null
-        ? Image.file(File(selectedImage.url))
+        ? Center(child: Image.file(File(selectedImage.url)))
         : const Center(child: Text('이미지를 선택해주세요'));
   }
 }

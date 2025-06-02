@@ -18,7 +18,7 @@ class SaveButton extends ConsumerWidget {
   }
 
   void _onPressed(BuildContext context, WidgetRef ref) async {
-    WriteTodoState state = ref.watch(writeTodoNotifierProvider);
+    WriteTodoState state = ref.read(writeTodoNotifierProvider);
     Todo todo = state.todo;
     WriteTodoMode mode = state.mode;
 

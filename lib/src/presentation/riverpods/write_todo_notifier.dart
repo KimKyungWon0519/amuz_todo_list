@@ -21,7 +21,7 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
 
   void setEditTodo(Todo todo) {
     state = state.copyWith(todo: todo, mode: WriteTodoMode.edit);
-    state.removeSelectedImage();
+    state = state.removeSelectedImage();
   }
 
   void loadTempTodo(int todoId) async {
@@ -32,7 +32,7 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     }
 
     state = state.copyWith(todo: todo, mode: WriteTodoMode.loadTemp);
-    state.removeSelectedImage();
+    state = state.removeSelectedImage();
   }
 
   void setTitle(String title) {
@@ -88,7 +88,7 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     );
 
     if (state.selectedImage == image) {
-      state = state.removeSelectedImage();
+      state = state = state.removeSelectedImage();
     }
 
     state = state.copyWith(todo: todo);
@@ -139,6 +139,6 @@ class WriteTodoState {
   }
 
   WriteTodoState removeSelectedImage() {
-    return WriteTodoState(todo: todo, selectedImage: null);
+    return WriteTodoState(todo: todo, mode: mode, selectedImage: null);
   }
 }

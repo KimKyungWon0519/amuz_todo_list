@@ -62,8 +62,6 @@ class AddImageButton extends ConsumerWidget {
       Domain.Image domainImage = Domain.Image(url: path);
 
       ref.read(writeTodoNotifierProvider.notifier).addImage(domainImage);
-
-      context.pop();
     }
   }
 
