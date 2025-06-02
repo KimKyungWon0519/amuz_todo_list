@@ -9,13 +9,13 @@ part 'local_database_notifier.g.dart';
 @Riverpod(keepAlive: false)
 Stream<Set<Tag>> watchAllTags(Ref ref) async* {
   final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
-  
+
   yield* repository.watchAllTags();
 }
 
 @Riverpod(keepAlive: false)
-Future<List<int>> getAllTempTodoIds(Ref ref) async {
+Stream<List<int>> getAllTempTodoIds(Ref ref) async* {
   final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
-  
-  return await repository.getAllTempTodoIds();
+
+  yield* repository.watchAllTempTodoIds();
 }
