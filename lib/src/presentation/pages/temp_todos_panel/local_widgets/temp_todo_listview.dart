@@ -2,7 +2,8 @@ import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
+
+import 'temp_todo_tile.dart';
 
 class TempTodoListview extends ConsumerWidget {
   const TempTodoListview({super.key});
@@ -16,22 +17,10 @@ class TempTodoListview extends ConsumerWidget {
     return tempTodoIds.when(
       data:
           (data) => ListView.builder(
-            itemBuilder:
-                (context, index) => ListTile(
-                  title: Text(
-                    '제목 : ${data[index].title.isEmpty ? '비어있음' : data[index].title}',
-                  ),
-                  subtitle: Text(
-                    '생성 날짜 : ${DateFormat.yMd('ko').format(data[index].createAt)}',
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.delete),
-                  ),
-                ),
+            itemBuilder: (context, index) => TempTodoTile(todo: data[index]),
             itemCount: data.length,
           ),
-      error: (_, __) => Container(child: Text('??')),
+      error: (_, __) => Container(),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
