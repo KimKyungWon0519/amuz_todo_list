@@ -36,7 +36,7 @@ class WriteTodoPage extends HookWidget {
             bool isLoad = await showLoadTempTodoDialog(context);
 
             if (isLoad) {
-              showTempTodosPanel(context);
+              Todo? selectedTodo = await showTempTodosPanel(context);
             }
           }
         }

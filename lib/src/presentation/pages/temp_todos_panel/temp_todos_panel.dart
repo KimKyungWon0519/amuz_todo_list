@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,8 +24,8 @@ class TempTodosPanel extends StatelessWidget {
   }
 }
 
-Future<void> showTempTodosPanel(BuildContext context) async {
-  showModalBottomSheet(
+Future<Todo?> showTempTodosPanel(BuildContext context) async {
+  return showModalBottomSheet(
     constraints: BoxConstraints(
       maxHeight: MediaQuery.sizeOf(context).height * 0.9,
     ),
