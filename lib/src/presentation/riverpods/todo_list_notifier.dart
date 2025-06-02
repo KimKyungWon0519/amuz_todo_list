@@ -72,4 +72,16 @@ class TodoListNotifier extends _$TodoListNotifier {
         break;
     }
   }
+
+  void searchTodos(String? title) async {
+    List<Todo> todos = await _localDatabaseRepository.getAllTodos();
+
+    if (title == null || title.isEmpty) {
+      state = AsyncData(todos);
+    } else {
+      state = AsyncData(
+        todos.where((todo) => todo.title.contains(title)).toList(),
+      );
+    }
+  }
 }

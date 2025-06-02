@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'all_tag_list_dialog.dart';
+import 'search_dialog.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({super.key});
@@ -14,10 +15,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text("ToDo"),
-      actions: [
-        _FilterButton(),
-        IconButton(onPressed: null, icon: Icon(Icons.search_rounded)),
-      ],
+      actions: [_FilterButton(), SearchIcon()],
     );
   }
 
@@ -84,6 +82,22 @@ class _FilterButton extends HookConsumerWidget {
                   ),
                 ),
       icon: Icon(Icons.filter_alt_rounded),
+    );
+  }
+}
+
+class SearchIcon extends ConsumerWidget {
+  const SearchIcon({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return IconButton(
+      onPressed: () async {
+        String? value = await showSearchDialog(context);
+
+        ref.read(todoListNotifierProvider.notifier).searchTodos(value);
+      },
+      icon: Icon(Icons.search_rounded),
     );
   }
 }
