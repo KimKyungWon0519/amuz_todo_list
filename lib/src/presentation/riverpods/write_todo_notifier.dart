@@ -19,8 +19,8 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     return WriteTodoState(todo: Todo.empty());
   }
 
-  void setTodo(Todo todo) {
-    state = state.copyWith(todo: todo);
+  void setTodo(Todo todo, [WriteTodoMode mode = WriteTodoMode.create]) {
+    state = state.copyWith(todo: todo, mode: mode);
   }
 
   void setTitle(String title) {
@@ -97,16 +97,28 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
   }
 }
 
+enum WriteTodoMode { create, edit, loadTemp }
+
 class WriteTodoState {
   final Todo todo;
   final Image? selectedImage;
+  final WriteTodoMode mode;
 
-  WriteTodoState({required this.todo, this.selectedImage});
+  WriteTodoState({
+    required this.todo,
+    this.selectedImage,
+    this.mode = WriteTodoMode.create,
+  });
 
-  WriteTodoState copyWith({Todo? todo, Image? selectedImage}) {
+  WriteTodoState copyWith({
+    Todo? todo,
+    Image? selectedImage,
+    WriteTodoMode? mode,
+  }) {
     return WriteTodoState(
       todo: todo ?? this.todo,
       selectedImage: selectedImage ?? this.selectedImage,
+      mode: mode ?? this.mode,
     );
   }
 

@@ -26,7 +26,7 @@ class WriteTodoPage extends HookWidget {
         ProviderContainer container = ProviderScope.containerOf(context);
 
         if (todo != null) {
-          container.read(writeTodoNotifierProvider.notifier).setTodo(todo!);
+          container.read(writeTodoNotifierProvider.notifier).setTodo(todo!, WriteTodoMode.edit);
         } else {
           final List<int> todoId = await container.read(
             getAllTempTodoIdsProvider.future,
