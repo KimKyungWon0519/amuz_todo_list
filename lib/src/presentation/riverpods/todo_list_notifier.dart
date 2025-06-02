@@ -40,4 +40,22 @@ class TodoListNotifier extends _$TodoListNotifier {
       }
     });
   }
+
+  void deleteTodo(int id) {
+    AsyncValue<List<Todo>> todos = state;
+
+    if (todos.hasValue) {
+      final List<Todo> updatedTodos = todos.value!.toList();
+
+      updatedTodos.removeWhere((element) => element.id == id);
+
+      state = AsyncValue.data(updatedTodos);
+    }
+
+    _localDatabaseRepository.deleteTodo(id).then((value) {
+      if (!value) {
+        state = todos;
+      }
+    });
+  }
 }

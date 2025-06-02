@@ -131,6 +131,18 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<bool> deleteTodo(int id) async {
+    try {
+      await (_localDatabase
+          .delete(_localDatabase.todos)
+          ..where((item) => item.id.equals(id))).go();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<T> runInTransaction<T>(Future<T> Function() action) async {
     return await _localDatabase.transaction(action);
   }

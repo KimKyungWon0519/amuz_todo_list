@@ -108,4 +108,9 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   Future<bool> updateTodo(Domain.Todo todo) {
     return _localDatabaseHelper.updateTodo(todo.toDataCompanion());
   }
+  
+  @override
+  Future<bool> deleteTodo(int id) {
+    return _localDatabaseHelper.deleteTodo(id);
+  }
 }

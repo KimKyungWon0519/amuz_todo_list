@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/presentation/pages/todo_list_page/local_widgets/todo_tile.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/todo_list_notifier.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,22 @@ class TodoListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue todos = ref.watch(todoListNotifierProvider);
+    AsyncValue<List<Todo>> todos = ref.watch(todoListNotifierProvider);
 
     return todos.when(
       data: (todos) {
         return ListView.builder(
           itemCount: todos.length,
           itemBuilder: (context, index) {
-            return TodoTile(todo: todos[index]);
+            return Dismissible(
+              key: UniqueKey(),
+              child: TodoTile(todo: todos[index]),
+              onDismissed: (direction) {
+                ref
+                    .read(todoListNotifierProvider.notifier)
+                    .deleteTodo(todos[index].id ?? -1);
+              },
+            );
           },
         );
       },
