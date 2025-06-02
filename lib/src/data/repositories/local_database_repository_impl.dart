@@ -212,10 +212,15 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   }
 
   @override
-  Stream<List<int>> watchAllTempTodoIds() {
-    return _localDatabaseHelper.watchAllTempTodoIds();
+  Stream<List<Domain.Todo>> watchAllTempTodoIds() {
+    return _localDatabaseHelper.watchAllTempTodoIds().map(
+      (values) =>
+          values
+              .map((element) => element.toDomainModel(tags: {}, images: []))
+              .toList(),
+    );
   }
-  
+
   @override
   Future<List<int>> getAllTempTodoIds() {
     return _localDatabaseHelper.getAllTempTodoIds();

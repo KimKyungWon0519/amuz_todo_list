@@ -185,11 +185,19 @@ class LocalDatabaseHelper {
     }
   }
 
-  Stream<List<int>> watchAllTempTodoIds() {
-    return _localDatabase
-        .select(_localDatabase.tempTodos)
-        .watch()
-        .map((rows) => rows.map((row) => row.todoId).toList());
+  Stream<List<Todo>> watchAllTempTodoIds() {
+    final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
+        .select(_localDatabase.todos)
+        .join([
+          leftOuterJoin(
+            _localDatabase.tempTodos,
+            _localDatabase.tempTodos.todoId.equalsExp(_localDatabase.todos.id),
+          ),
+        ]);
+
+    return query.watch().map(
+      (rows) => rows.map((row) => row.readTable(_localDatabase.todos)).toList(),
+    );
   }
 
   Future<List<int>> getAllTempTodoIds() async {

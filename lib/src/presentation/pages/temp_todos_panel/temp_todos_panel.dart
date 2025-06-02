@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'local_widgets/temp_todo_listview.dart';
+
 class TempTodosPanel extends StatelessWidget {
   const TempTodosPanel({super.key});
 
@@ -16,7 +18,7 @@ class TempTodosPanel extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(child: Placeholder()),
+      body: SafeArea(child: TempTodoListview()),
     );
   }
 }

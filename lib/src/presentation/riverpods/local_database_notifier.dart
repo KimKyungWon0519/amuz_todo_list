@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/tag.dart';
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,7 +15,7 @@ Stream<Set<Tag>> watchAllTags(Ref ref) async* {
 }
 
 @Riverpod(keepAlive: false)
-Stream<List<int>> watchAllTempTodoIds(Ref ref) async* {
+Stream<List<Todo>> watchAllTempTodoIds(Ref ref) async* {
   final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
 
   yield* repository.watchAllTempTodoIds();

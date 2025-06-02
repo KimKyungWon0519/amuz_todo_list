@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
@@ -11,7 +12,7 @@ class SaveTempButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<int>> tempTodoIds = ref.watch(
+    final AsyncValue<List<Todo>> tempTodoIds = ref.watch(
       watchAllTempTodoIdsProvider,
     );
 
