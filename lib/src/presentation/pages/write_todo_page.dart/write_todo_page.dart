@@ -37,6 +37,12 @@ class WriteTodoPage extends HookWidget {
 
             if (isLoad) {
               Todo? selectedTodo = await showTempTodosPanel(context);
+
+              if (selectedTodo != null) {
+                container
+                    .read(writeTodoNotifierProvider.notifier)
+                    .setTodo(selectedTodo);
+              }
             }
           }
         }
