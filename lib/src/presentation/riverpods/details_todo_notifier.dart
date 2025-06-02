@@ -26,7 +26,7 @@ class DetailsTodoNotifier extends _$DetailsTodoNotifier {
 
     state = updatedTodo;
 
-    _localDatabaseRepository.updateTodo(updatedTodo).then((value) {
+    _localDatabaseRepository.changeisDoneState(updatedTodo).then((value) {
       if (!value) {
         state = todo;
       }

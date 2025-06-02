@@ -28,7 +28,11 @@ final class AppRoutes {
 
   static final GoRoute writeTodo = GoRoute(
     path: '/write_todo',
-    builder: (context, state) => WriteTodoPage(),
+    builder: (context, state) {
+      final Todo? todo = state.extra as Todo?;
+
+      return WriteTodoPage(todo: todo);
+    },
   );
 
   static final StatefulShellRoute shellRoute = StatefulShellRoute.indexedStack(

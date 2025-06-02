@@ -11,7 +11,9 @@ class ImageIndicator extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<int> currentIndex = useState(0);
-    final int imageLength = ref.watch(detailsTodoNotifierProvider.select((value) => value.images.length));
+    final int imageLength = ref.watch(
+      detailsTodoNotifierProvider.select((value) => value.images.length),
+    );
 
     useEffect(() {
       void updateCurrentIndex() {
@@ -33,7 +35,7 @@ class ImageIndicator extends HookConsumerWidget {
       ),
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Text(
-        "${currentIndex.value + 1} / $imageLength",
+        "${imageLength != 0 ? currentIndex.value + 1 : 0} / $imageLength",
         style: TextStyle(color: Colors.white),
       ),
     );

@@ -19,6 +19,10 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     return WriteTodoState(todo: Todo.empty());
   }
 
+  void setTodo(Todo todo) {
+    state = state.copyWith(todo: todo);
+  }
+
   void setTitle(String title) {
     Todo todo = state.todo.copyWith(title: title);
 
@@ -78,10 +82,14 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     state = state.copyWith(todo: todo);
   }
 
-  Future<bool> saveTodo() {
+  Future<bool> createTodo() {
     Todo todo = state.todo;
 
     return _localDatabaseRepository.insertTodo(todo);
+  }
+
+  Future<bool> editTodo(Todo todo) {
+    return _localDatabaseRepository.editTodo(todo);
   }
 }
 

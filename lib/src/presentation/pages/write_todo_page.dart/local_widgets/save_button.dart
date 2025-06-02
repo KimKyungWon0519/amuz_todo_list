@@ -28,13 +28,29 @@ class SaveButton extends ConsumerWidget {
 
     showLoadingDialog(context);
 
-    bool result = await ref
-        .read(writeTodoNotifierProvider.notifier)
-        .saveTodo()
-        .then((value) {
-          context.pop();
-          return value;
-        });
+    bool result = false;
+
+    if (todo.id == null) {
+      result = await ref
+          .read(writeTodoNotifierProvider.notifier)
+          .createTodo()
+          .then((value) {
+            context.pop();
+
+            return value;
+          });
+    } else {
+      todo = todo.copyWith(updateAt: DateTime.now());
+
+      result = await ref
+          .read(writeTodoNotifierProvider.notifier)
+          .editTodo(todo)
+          .then((value) {
+            context.pop();
+
+            return value;
+          });
+    }
 
     if (result) {
       showDialog(
@@ -47,7 +63,7 @@ class SaveButton extends ConsumerWidget {
               ],
             ),
       ).then((value) {
-        context.pop();
+        context.pop(todo);
       });
     } else {
       showErrorDialog(
