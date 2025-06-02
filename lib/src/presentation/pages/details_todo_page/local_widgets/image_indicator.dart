@@ -1,14 +1,17 @@
+import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ImageIndicator extends HookWidget {
+class ImageIndicator extends HookConsumerWidget {
   final PageController? controller;
 
   const ImageIndicator({super.key, this.controller});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<int> currentIndex = useState(0);
+    final int imageLength = ref.watch(detailsTodoNotifierProvider.select((value) => value.images.length));
 
     useEffect(() {
       void updateCurrentIndex() {
@@ -30,7 +33,7 @@ class ImageIndicator extends HookWidget {
       ),
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Text(
-        "${currentIndex.value + 1} / 5",
+        "${currentIndex.value + 1} / $imageLength",
         style: TextStyle(color: Colors.white),
       ),
     );
