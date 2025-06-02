@@ -210,4 +210,9 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
         })
         .catchError((_) => false);
   }
+
+  @override
+  Future<List<int>> getAllTempTodoIds() {
+    return _localDatabaseHelper.getAllTempTodoIds();
+  }
 }
