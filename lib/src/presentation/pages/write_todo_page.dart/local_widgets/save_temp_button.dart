@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/pages/temp_todos_panel/temp_todos_panel.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
@@ -23,41 +24,22 @@ class SaveTempButton extends ConsumerWidget {
     );
 
     return TextButton(
-      onPressed: () => _saveTemp(context, ref),
+      onPressed: () => _loadTempTodos(context, ref),
       child: Text('임시저장 | $length'),
     );
   }
 
-  void _saveTemp(BuildContext context, WidgetRef ref) async {
-    showLoadingDialog(context);
+  void _loadTempTodos(BuildContext context, WidgetRef ref) async {
+    Todo todo = ref.read(
+      writeTodoNotifierProvider.select((value) => value.todo),
+    );
 
-    bool result = await ref
+    Todo? tempTodo = await showTempTodosPanel(context, todo);
+
+    if (tempTodo == null) return;
+
+    ref
         .read(writeTodoNotifierProvider.notifier)
-        .saveTempTodo()
-        .then((value) {
-          context.pop();
-
-          return value;
-        });
-
-    if (result) {
-      showDialog(
-        context: context,
-        builder:
-            (context) => AlertDialog(
-              title: Text('임시저장 완료'),
-              content: Text('임시저장이 완료되었습니다.'),
-              actions: [
-                TextButton(onPressed: () => context.pop(), child: Text('확인')),
-              ],
-            ),
-      );
-    } else {
-      showErrorDialog(
-        context,
-        title: '임시저장 실패',
-        content: '임시 저장에 실패했습니다. 다시 시도해주세요.',
-      );
-    }
+        .setTodo(tempTodo, WriteTodoMode.loadTemp);
   }
 }

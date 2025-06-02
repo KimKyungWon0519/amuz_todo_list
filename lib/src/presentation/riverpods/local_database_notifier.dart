@@ -34,3 +34,10 @@ Future<bool> deleteTempTodo(Ref ref, Todo todo) {
 
   return repository.deleteTempTodo(todo);
 }
+
+@Riverpod(keepAlive: false)
+Future<bool> saveTempTodo(Ref ref, Todo todo) {
+  final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
+
+  return repository.insertTempTodo(todo);
+}
