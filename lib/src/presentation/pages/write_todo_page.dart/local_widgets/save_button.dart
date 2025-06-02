@@ -28,13 +28,27 @@ class SaveButton extends ConsumerWidget {
 
     showLoadingDialog(context);
 
-    bool result = await ref
-        .read(writeTodoNotifierProvider.notifier)
-        .saveTodo()
-        .then((value) {
-          context.pop();
-          return value;
-        });
+    bool result = false;
+
+    if (todo.id == null) {
+      result = await ref
+          .read(writeTodoNotifierProvider.notifier)
+          .createTodo()
+          .then((value) {
+            context.pop();
+            
+            return value;
+          });
+    } else {
+      result = await ref
+          .read(writeTodoNotifierProvider.notifier)
+          .editTodo()
+          .then((value) {
+            context.pop();
+
+            return value;
+          });
+    }
 
     if (result) {
       showDialog(
