@@ -107,6 +107,10 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
   Future<bool> saveTempTodo() async {
     return _localDatabaseRepository.insertTempTodo(state.todo);
   }
+
+  Future<bool> saveTodoAndRemoveTempTodo(Todo todo) async {
+    return _localDatabaseRepository.saveTodoAndRemoveTempTodo(todo);
+  }
 }
 
 enum WriteTodoMode { create, edit, loadTemp }

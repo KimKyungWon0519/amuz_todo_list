@@ -18,7 +18,9 @@ class SaveButton extends ConsumerWidget {
   }
 
   void _onPressed(BuildContext context, WidgetRef ref) async {
-    Todo todo = ref.read(writeTodoNotifierProvider).todo;
+    WriteTodoState state = ref.watch(writeTodoNotifierProvider);
+    Todo todo = state.todo;
+    WriteTodoMode mode = state.mode;
 
     if (todo.title.trim().isEmpty) {
       showErrorDialog(context, title: '저장 실패', content: '제목을 입력해주세요.');
@@ -30,26 +32,44 @@ class SaveButton extends ConsumerWidget {
 
     bool result = false;
 
-    if (todo.id == null) {
-      result = await ref
-          .read(writeTodoNotifierProvider.notifier)
-          .createTodo()
-          .then((value) {
-            context.pop();
+    switch (mode) {
+      case WriteTodoMode.create:
+        result = await ref
+            .read(writeTodoNotifierProvider.notifier)
+            .createTodo()
+            .then((value) {
+              context.pop();
 
-            return value;
-          });
-    } else {
-      todo = todo.copyWith(updateAt: DateTime.now());
+              return value;
+            });
 
-      result = await ref
-          .read(writeTodoNotifierProvider.notifier)
-          .editTodo(todo)
-          .then((value) {
-            context.pop();
+        break;
+      case WriteTodoMode.edit:
+        todo = todo.copyWith(updateAt: DateTime.now());
 
-            return value;
-          });
+        result = await ref
+            .read(writeTodoNotifierProvider.notifier)
+            .editTodo(todo)
+            .then((value) {
+              context.pop();
+
+              return value;
+            });
+
+        break;
+      case WriteTodoMode.loadTemp:
+        todo = todo.copyWith(createAt: DateTime.now());
+
+        result = await ref
+            .read(writeTodoNotifierProvider.notifier)
+            .saveTodoAndRemoveTempTodo(todo)
+            .then((value) {
+              context.pop();
+
+              return value;
+            });
+
+        break;
     }
 
     if (result) {

@@ -224,11 +224,11 @@ class LocalDatabaseHelper {
 
   Stream<List<Todo>> watchAllTempTodoIds() {
     final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
-        .select(_localDatabase.todos)
+        .select(_localDatabase.tempTodos)
         .join([
           leftOuterJoin(
-            _localDatabase.tempTodos,
-            _localDatabase.tempTodos.todoId.equalsExp(_localDatabase.todos.id),
+            _localDatabase.todos,
+            _localDatabase.todos.id.equalsExp(_localDatabase.tempTodos.todoId),
           ),
         ]);
 
@@ -253,6 +253,13 @@ class LocalDatabaseHelper {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<int> getTempTodoIdByTodoId(int todoId) async {
+    final result = await (_localDatabase.select(_localDatabase.tempTodos)
+      ..where((item) => item.todoId.equals(todoId))).getSingleOrNull();
+
+    return result?.todoId ?? -1;
   }
 
   Future printTable() async {

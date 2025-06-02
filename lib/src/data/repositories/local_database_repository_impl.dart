@@ -192,19 +192,29 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   Future<bool> insertTempTodo(Domain.Todo todo) {
     return _localDatabaseHelper
         .runInTransaction(() async {
+          int todoId = -1;
+
           if (todo.id != null) {
             bool isSuccess = await editTodo(todo);
 
             if (!isSuccess) {
               throw Exception('Failed to edit todo');
             }
+
+            todoId = todo.id!;
           } else {
-            int todoId = await insertTodo(todo);
+            todoId = await insertTodo(todo);
 
             if (todoId == -1) {
               throw Exception('Failed to insert todo');
             }
+          }
 
+          int tempTodoId = await _localDatabaseHelper.getTempTodoIdByTodoId(
+            todo.id!,
+          );
+
+          if (tempTodoId == -1) {
             bool isSuccess = await _localDatabaseHelper.insertTempTodo(
               TempTodosCompanion(todoId: Value(todoId)),
             );
@@ -272,8 +282,33 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
           value.$2.map((tag) => tag.toDomainModel()).toSet();
       final List<Domain.Image> images =
           value.$3.map((image) => image.toDomainModel()).toList();
-          
+
       return value.$1.toDomainModel(tags: tags, images: images);
     });
+  }
+
+  @override
+  Future<bool> saveTodoAndRemoveTempTodo(Domain.Todo todo) {
+    print('saveTodoAndRemoveTempTodo: ${todo}');
+
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          bool isSuccess = await editTodo(todo);
+
+          if (!isSuccess) {
+            throw Exception('Failed to edit todo');
+          }
+
+          isSuccess = await _localDatabaseHelper.deleteTempTodoByTodoId(
+            todo.id!,
+          );
+
+          if (!isSuccess) {
+            throw Exception('Failed to delete temp todo');
+          }
+
+          return true;
+        })
+        .catchError((_) => false);
   }
 }
