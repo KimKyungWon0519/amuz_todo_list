@@ -1,4 +1,10 @@
+import 'package:amuz_todo_list/src/core/routes/app_routes.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
+import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
+import 'package:amuz_todo_list/src/presentation/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({super.key});
@@ -7,16 +13,51 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       actions: [
-        PopupMenuButton(
-          itemBuilder:
-              (context) => [
-                PopupMenuItem(child: Text("수정")),
-                PopupMenuItem(child: Text("삭제")),
-              ],
-          icon: Icon(Icons.more_horiz),
+        Consumer(
+          builder: (context, ref, child) {
+            return PopupMenuButton(
+              itemBuilder:
+                  (context) => [
+                    PopupMenuItem(
+                      child: Text("수정"),
+                      onTap: () {
+                        context.push(AppRoutes.writeTodo.path);
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: Text("삭제"),
+                      onTap: () => _deleteTodo(context, ref),
+                    ),
+                  ],
+              icon: Icon(Icons.more_horiz),
+            );
+          },
         ),
       ],
     );
+  }
+
+  void _deleteTodo(BuildContext context, WidgetRef ref) async {
+    showLoadingDialog(context);
+
+    bool result = await ref
+        .read(detailsTodoNotifierProvider.notifier)
+        .deleteTodo()
+        .then((value) {
+          context.pop();
+
+          return value;
+        });
+
+    if (result) {
+      context.pop();
+    } else {
+      showErrorDialog(
+        context,
+        title: '삭제 실패',
+        content: 'Todo 삭제에 실패했습니다. 다시 시도해주세요.',
+      );
+    }
   }
 
   @override

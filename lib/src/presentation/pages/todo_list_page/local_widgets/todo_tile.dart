@@ -33,7 +33,7 @@ class TodoTile extends StatelessWidget {
           );
         },
       ),
-      onTap: () => context.push(AppRoutes.detailsTodo.path),
+      onTap: () => context.push(AppRoutes.detailsTodo.path, extra: todo),
     );
   }
 }

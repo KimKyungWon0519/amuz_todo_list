@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/presentation/pages/details_todo_page/details_todo_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/shell_route_page/shell_route_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/todo_list_page/todo_list_page.dart';
@@ -15,7 +16,9 @@ final class AppRoutes {
 
   static final GoRoute detailsTodo = GoRoute(
     path: '/details_todo',
-    builder: (context, state) => DetailsTodoPage(),
+    builder:
+        (context, state) =>
+            DetailsTodoPage(todo: state.extra as Todo? ?? Todo.empty()),
   );
 
   static final GoRoute user = GoRoute(

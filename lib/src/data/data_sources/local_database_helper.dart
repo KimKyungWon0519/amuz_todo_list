@@ -52,7 +52,7 @@ class LocalDatabaseHelper {
     }
   }
 
-  Stream<List<(Todo, List<Tag>, List<Image>)>> watchAllTodos() {
+  Stream<List<(Todo, Set<Tag>, Set<Image>)>> watchAllTodos() {
     final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
         .select(_localDatabase.todos)
         .join([
@@ -73,7 +73,7 @@ class LocalDatabaseHelper {
         ]);
 
     return query.watch().map((rows) {
-      final Map<int, (Todo, List<Tag>, List<Image>)> groupedMap = {};
+      final Map<int, (Todo, Set<Tag>, Set<Image>)> groupedMap = {};
 
       for (final row in rows) {
         final Todo todo = row.readTable(_localDatabase.todos);
@@ -82,7 +82,7 @@ class LocalDatabaseHelper {
 
         final entry = groupedMap.putIfAbsent(
           todo.id,
-          () => (todo, <Tag>[], <Image>[]),
+          () => (todo, <Tag>{}, <Image>{}),
         );
 
         if (tag != null) {
@@ -111,9 +111,31 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<bool> deleteTodosAndTagsByTodoId(int todoId) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.todosAndTags)
+        ..where((tbl) => tbl.todoId.equals(todoId))).go();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> insertImage(ImagesCompanion image) async {
     try {
       await _localDatabase.into(_localDatabase.images).insert(image);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteImage(int id) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.images)
+        ..where((item) => item.id.equals(id))).go();
 
       return true;
     } catch (e) {
@@ -133,9 +155,8 @@ class LocalDatabaseHelper {
 
   Future<bool> deleteTodo(int id) async {
     try {
-      await (_localDatabase
-          .delete(_localDatabase.todos)
-          ..where((item) => item.id.equals(id))).go();
+      await (_localDatabase.delete(_localDatabase.todos)
+        ..where((item) => item.id.equals(id))).go();
 
       return true;
     } catch (e) {

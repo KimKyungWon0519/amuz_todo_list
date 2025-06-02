@@ -22,7 +22,7 @@ class TodoListView extends ConsumerWidget {
               onDismissed: (direction) {
                 ref
                     .read(todoListNotifierProvider.notifier)
-                    .deleteTodo(todos[index].id ?? -1);
+                    .deleteTodo(todos[index]);
               },
             );
           },
