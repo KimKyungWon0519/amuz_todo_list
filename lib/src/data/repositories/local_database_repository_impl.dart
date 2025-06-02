@@ -49,7 +49,7 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   }
 
   @override
-  Future<bool> insertTodo(Domain.Todo todo) {
+  Future<int> insertTodo(Domain.Todo todo) {
     return _localDatabaseHelper
         .runInTransaction(() async {
           int todoID = await _localDatabaseHelper.insertTodo(
@@ -81,9 +81,9 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
             }
           }
 
-          return true;
+          return todoID;
         })
-        .catchError((_) => false);
+        .catchError((_) => -1);
   }
 
   @override
@@ -181,6 +181,29 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
             if (!isSuccess) {
               throw Exception('Failed to insert image');
             }
+          }
+
+          return true;
+        })
+        .catchError((_) => false);
+  }
+
+  @override
+  Future<bool> insertTempTodo(Domain.Todo todo) {
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          int todoId = await insertTodo(todo);
+
+          if (todoId == -1) {
+            throw Exception('Failed to insert todo');
+          }
+
+          bool isSuccess = await _localDatabaseHelper.insertTempTodo(
+            TempTodosCompanion(todoId: Value(todoId)),
+          );
+
+          if (!isSuccess) {
+            throw Exception('Failed to insert temp todo');
           }
 
           return true;

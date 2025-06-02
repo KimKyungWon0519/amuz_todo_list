@@ -175,6 +175,16 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<bool> insertTempTodo(TempTodosCompanion tempTodo) async {
+    try {
+      await _localDatabase.into(_localDatabase.tempTodos).insert(tempTodo);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future printTable() async {
     await _localDatabase.todos.select().get().then((todos) {
       print('Todos: $todos');

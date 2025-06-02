@@ -8,9 +8,11 @@ abstract interface class LocalDatabaseRepository {
   Future<bool> deleteAllTag();
   Future<bool> addTag(Tag tag);
 
-  Future<bool> insertTodo(Todo todo);
+  Future<int> insertTodo(Todo todo);
   Future<bool> changeisDoneState(Todo todo);
   Future<bool> editTodo(Todo todo);
   Future<bool> deleteTodo(Todo todo);
   Stream<List<Todo>> watchAllTodos();
+
+  Future<bool> insertTempTodo(Todo todo);
 }
