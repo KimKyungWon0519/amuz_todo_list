@@ -18,8 +18,8 @@ class TempTodosPanel extends StatelessWidget {
   }
 }
 
-Future<Todo?> showTempTodosPanel(BuildContext context, Todo todo) async {
-  return showModalBottomSheet(
+Future<int> showTempTodosPanel(BuildContext context, Todo todo) async {
+  return await showModalBottomSheet(
     constraints: BoxConstraints(
       maxHeight: MediaQuery.sizeOf(context).height * 0.9,
     ),
@@ -27,5 +27,5 @@ Future<Todo?> showTempTodosPanel(BuildContext context, Todo todo) async {
     builder: (context) => TempTodosPanel(todo: todo),
     showDragHandle: true,
     isScrollControlled: true,
-  );
+  ) ?? -1;
 }

@@ -34,12 +34,9 @@ class SaveTempButton extends ConsumerWidget {
       writeTodoNotifierProvider.select((value) => value.todo),
     );
 
-    Todo? tempTodo = await showTempTodosPanel(context, todo);
-
-    if (tempTodo == null) return;
+    int todoId = await showTempTodosPanel(context, todo);
 
     ref
-        .read(writeTodoNotifierProvider.notifier)
-        .setTodo(tempTodo, WriteTodoMode.loadTemp);
+        .read(writeTodoNotifierProvider.notifier).loadTempTodo(todoId);
   }
 }

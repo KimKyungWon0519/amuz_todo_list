@@ -19,8 +19,20 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     return WriteTodoState(todo: Todo.empty());
   }
 
-  void setTodo(Todo todo, WriteTodoMode mode) {
-    state = state.copyWith(todo: todo, mode: mode);
+  void setEditTodo(Todo todo) {
+    state = state.copyWith(todo: todo, mode: WriteTodoMode.edit);
+    state.removeSelectedImage();
+  }
+
+  void loadTempTodo(int todoId) async {
+    final Todo? todo = await _localDatabaseRepository.getTodoById(todoId);
+
+    if (todo == null) {
+      return;
+    }
+
+    state = state.copyWith(todo: todo, mode: WriteTodoMode.loadTemp);
+    state.removeSelectedImage();
   }
 
   void setTitle(String title) {

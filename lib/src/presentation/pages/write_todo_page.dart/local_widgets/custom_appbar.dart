@@ -11,7 +11,7 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final WriteTodoMode todo = ref.read(
+    final WriteTodoMode todo = ref.watch(
       writeTodoNotifierProvider.select((value) => value.mode),
     );
 

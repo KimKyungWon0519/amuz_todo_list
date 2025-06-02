@@ -26,9 +26,7 @@ class WriteTodoPage extends HookWidget {
         ProviderContainer container = ProviderScope.containerOf(context);
 
         if (todo != null) {
-          container
-              .read(writeTodoNotifierProvider.notifier)
-              .setTodo(todo!, WriteTodoMode.edit);
+          container.read(writeTodoNotifierProvider.notifier).setEditTodo(todo!);
         } else {
           final List<int> todoId = await container.read(
             getAllTempTodoIdsProvider.future,
@@ -38,16 +36,11 @@ class WriteTodoPage extends HookWidget {
             bool isLoad = await showLoadTempTodoDialog(context);
 
             if (isLoad) {
-              Todo? selectedTodo = await showTempTodosPanel(
-                context,
-                Todo.empty(),
-              );
+              int todoId = await showTempTodosPanel(context, Todo.empty());
 
-              if (selectedTodo != null) {
-                container
-                    .read(writeTodoNotifierProvider.notifier)
-                    .setTodo(selectedTodo, WriteTodoMode.loadTemp);
-              }
+              container
+                  .read(writeTodoNotifierProvider.notifier)
+                  .loadTempTodo(todoId);
             }
           }
         }

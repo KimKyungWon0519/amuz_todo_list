@@ -97,6 +97,43 @@ class LocalDatabaseHelper {
     });
   }
 
+  Future<(Todo, Set<Tag>, Set<Image>)?> getTodoById(int todoId) async {
+    final query = _localDatabase.select(_localDatabase.todos).join([
+      leftOuterJoin(
+        _localDatabase.todosAndTags,
+        _localDatabase.todosAndTags.todoId.equalsExp(_localDatabase.todos.id),
+      ),
+      leftOuterJoin(
+        _localDatabase.tags,
+        _localDatabase.tags.id.equalsExp(_localDatabase.todosAndTags.tagId),
+      ),
+      leftOuterJoin(
+        _localDatabase.images,
+        _localDatabase.images.todoId.equalsExp(_localDatabase.todos.id),
+      ),
+    ])..where(_localDatabase.todos.id.equals(todoId));
+
+    final rows = await query.get();
+
+    if (rows.isEmpty) {
+      return null;
+    }
+
+    final Todo todo = rows.first.readTable(_localDatabase.todos);
+    final Set<Tag> tags = {};
+    final Set<Image> images = {};
+
+    for (final row in rows) {
+      final Tag? tag = row.readTableOrNull(_localDatabase.tags);
+      final Image? image = row.readTableOrNull(_localDatabase.images);
+
+      if (tag != null) tags.add(tag);
+      if (image != null) images.add(image);
+    }
+
+    return (todo, tags, images);
+  }
+
   Future<bool> insertTodosAndTags(
     TodosAndTagsCompanion todosAndTagsCompanion,
   ) async {

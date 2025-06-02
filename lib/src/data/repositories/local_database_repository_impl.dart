@@ -260,4 +260,20 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
         })
         .catchError((_) => false);
   }
+
+  @override
+  Future<Domain.Todo?> getTodoById(int id) {
+    return _localDatabaseHelper.getTodoById(id).then((value) {
+      if (value == null) {
+        return null;
+      }
+
+      final Set<Domain.Tag> tags =
+          value.$2.map((tag) => tag.toDomainModel()).toSet();
+      final List<Domain.Image> images =
+          value.$3.map((image) => image.toDomainModel()).toList();
+          
+      return value.$1.toDomainModel(tags: tags, images: images);
+    });
+  }
 }
