@@ -11,6 +11,10 @@ class TitleField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController controller = useTextEditingController();
 
+    Future.delayed(Duration.zero, () {
+      controller.text = ref.read(writeTodoNotifierProvider).todo.title;
+    });
+
     return TextField(
       controller: controller,
       maxLength: todoTitleMaxLength,
