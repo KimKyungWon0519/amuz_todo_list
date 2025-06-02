@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -18,15 +19,17 @@ class WriteTodoPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      if (todo != null) {
-        Future.delayed(Duration.zero, () {
-          ProviderContainer container = ProviderScope.containerOf(context);
+      Future.delayed(Duration.zero, () async {
+        ProviderContainer container = ProviderScope.containerOf(context);
 
+        if (todo != null) {
           container.read(writeTodoNotifierProvider.notifier).setTodo(todo!);
-        });
-      }
+        } else {
+          AsyncValue<List<int>> todoId = await container.read(getAllTempTodoIdsProvider);
+        }
+      });
     }, []);
-    
+
     return Scaffold(
       appBar: CustomAppbar(),
       body: Padding(
