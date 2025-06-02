@@ -54,23 +54,27 @@ class LocalDatabaseHelper {
 
   Stream<List<(Todo, Set<Tag>, Set<Image>)>> watchAllTodos() {
     final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
-        .select(_localDatabase.todos)
-        .join([
-          leftOuterJoin(
-            _localDatabase.todosAndTags,
-            _localDatabase.todosAndTags.todoId.equalsExp(
-              _localDatabase.todos.id,
-            ),
-          ),
-          leftOuterJoin(
-            _localDatabase.tags,
-            _localDatabase.tags.id.equalsExp(_localDatabase.todosAndTags.tagId),
-          ),
-          leftOuterJoin(
-            _localDatabase.images,
-            _localDatabase.images.todoId.equalsExp(_localDatabase.todos.id),
-          ),
-        ]);
+      .select(_localDatabase.todos)
+      .join([
+        leftOuterJoin(
+          _localDatabase.todosAndTags,
+          _localDatabase.todosAndTags.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+        leftOuterJoin(
+          _localDatabase.tags,
+          _localDatabase.tags.id.equalsExp(_localDatabase.todosAndTags.tagId),
+        ),
+        leftOuterJoin(
+          _localDatabase.images,
+          _localDatabase.images.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+      ])..where(
+      notExistsQuery(
+        _localDatabase.select(_localDatabase.tempTodos)..where(
+          (tempTodo) => tempTodo.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+      ),
+    );
 
     return query.watch().map((rows) {
       final Map<int, (Todo, Set<Tag>, Set<Image>)> groupedMap = {};
@@ -256,8 +260,9 @@ class LocalDatabaseHelper {
   }
 
   Future<int> getTempTodoIdByTodoId(int todoId) async {
-    final result = await (_localDatabase.select(_localDatabase.tempTodos)
-      ..where((item) => item.todoId.equals(todoId))).getSingleOrNull();
+    final result =
+        await (_localDatabase.select(_localDatabase.tempTodos)
+          ..where((item) => item.todoId.equals(todoId))).getSingleOrNull();
 
     return result?.todoId ?? -1;
   }

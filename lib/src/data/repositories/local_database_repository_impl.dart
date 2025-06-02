@@ -289,8 +289,6 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Future<bool> saveTodoAndRemoveTempTodo(Domain.Todo todo) {
-    print('saveTodoAndRemoveTempTodo: ${todo}');
-
     return _localDatabaseHelper
         .runInTransaction(() async {
           bool isSuccess = await editTodo(todo);
