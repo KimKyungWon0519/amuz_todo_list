@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/pages/temp_todos_panel/temp_todos_panel.dart';
 import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/local_widgets/load_temp_todo_dialog.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
@@ -33,6 +34,10 @@ class WriteTodoPage extends HookWidget {
 
           if (todoId.isNotEmpty) {
             bool isLoad = await showLoadTempTodoDialog(context);
+
+            if (isLoad) {
+              showTempTodosPanel(context);
+            }
           }
         }
       });
