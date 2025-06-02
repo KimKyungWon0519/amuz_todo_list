@@ -11,8 +11,6 @@ class TodoTitle extends ConsumerWidget {
       detailsTodoNotifierProvider.select((value) => value.title),
     );
 
-    print(title);
-
     return Text(title, style: Theme.of(context).textTheme.headlineMedium);
   }
 }
