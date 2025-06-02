@@ -143,7 +143,7 @@ class LocalDatabaseHelper {
     }
   }
 
-    Future<bool> deleteImageByTodoId(int todoId) async {
+  Future<bool> deleteImageByTodoId(int todoId) async {
     try {
       await (_localDatabase.delete(_localDatabase.images)
         ..where((item) => item.todoId.equals(todoId))).go();
@@ -153,7 +153,6 @@ class LocalDatabaseHelper {
       return false;
     }
   }
-
 
   Future<bool> updateTodo(TodosCompanion todo) async {
     try {
@@ -174,6 +173,20 @@ class LocalDatabaseHelper {
     } catch (e) {
       return false;
     }
+  }
+
+  Future printTable() async {
+    await _localDatabase.todos.select().get().then((todos) {
+      print('Todos: $todos');
+    });
+
+    await _localDatabase.todosAndTags.select().get().then((todosAndTags) {
+      print('TodosAndTags:$todosAndTags');
+    });
+
+    await _localDatabase.images.select().get().then((images) {
+      print('Images:$images');
+    });
   }
 
   Future<T> runInTransaction<T>(Future<T> Function() action) async {

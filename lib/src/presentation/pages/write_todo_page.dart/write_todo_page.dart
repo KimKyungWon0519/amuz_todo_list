@@ -26,6 +26,7 @@ class WriteTodoPage extends HookWidget {
         });
       }
     }, []);
+    
     return Scaffold(
       appBar: CustomAppbar(),
       body: Padding(

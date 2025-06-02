@@ -18,8 +18,6 @@ class DetailsTodoNotifier extends _$DetailsTodoNotifier {
   }
 
   void updateTodo(Todo todo) {
-    print("Updating Todo: $todo");
-
     state = todo;
   }
 

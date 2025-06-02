@@ -15,7 +15,7 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
     );
 
     return AppBar(
-      title: Text("ToDo ${todo.id != null ? "추가" : "수정"}"),
+      title: Text("ToDo ${todo.id != null ? "수정" : "추가"}"),
       actions: [
         TextButton(onPressed: null, child: Text('임시저장 | 0')),
         SaveButton(),

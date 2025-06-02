@@ -140,24 +140,51 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Future<bool> editTodo(Domain.Todo todo) {
-    return _localDatabaseHelper.runInTransaction(() async {
-      bool isSuccess = false;
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          bool isSuccess = false;
 
-      isSuccess = await _localDatabaseHelper.updateTodo(todo.toDataCompanion());
+          isSuccess = await _localDatabaseHelper.updateTodo(
+            todo.toDataCompanion(),
+          );
 
-      if (!isSuccess) throw Exception('Failed to update todo');
+          if (!isSuccess) throw Exception('Failed to update todo');
 
-      isSuccess = await _localDatabaseHelper.deleteTodosAndTagsByTodoId(
-        todo.id!,
-      );
+          isSuccess = await _localDatabaseHelper.deleteTodosAndTagsByTodoId(
+            todo.id!,
+          );
 
-      if (!isSuccess) throw Exception('Failed to delete todos and tags');
+          if (!isSuccess) throw Exception('Failed to delete todos and tags');
 
-      isSuccess = await _localDatabaseHelper.deleteImageByTodoId(todo.id!);
+          isSuccess = await _localDatabaseHelper.deleteImageByTodoId(todo.id!);
 
-      if (!isSuccess) throw Exception('Failed to delete image');
+          if (!isSuccess) throw Exception('Failed to delete image');
 
-      return true;
-    }).catchError((_) => false);
+          for (final Domain.Tag tag in todo.tags) {
+            bool isSuccess = await _localDatabaseHelper.insertTodosAndTags(
+              TodosAndTagsCompanion(
+                todoId: Value(todo.id!),
+                tagId: Value(tag.id!),
+              ),
+            );
+
+            if (!isSuccess) {
+              throw Exception('Failed to insert todo and tag');
+            }
+          }
+
+          for (final Domain.Image image in todo.images) {
+            bool isSuccess = await _localDatabaseHelper.insertImage(
+              image.toDataCompanion(todo.id!),
+            );
+
+            if (!isSuccess) {
+              throw Exception('Failed to insert image');
+            }
+          }
+
+          return true;
+        })
+        .catchError((_) => false);
   }
 }
