@@ -4,9 +4,7 @@ import 'package:amuz_todo_list/src/presentation/pages/shell_route_page/shell_rou
 import 'package:amuz_todo_list/src/presentation/pages/todo_list_page/todo_list_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/user_page/user_page.dart';
 import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/write_todo_page.dart';
-import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final class AppRoutes {
   const AppRoutes._();
@@ -18,7 +16,9 @@ final class AppRoutes {
 
   static final GoRoute detailsTodo = GoRoute(
     path: '/details_todo',
-    builder: (context, state) => DetailsTodoPage(),
+    builder:
+        (context, state) =>
+            DetailsTodoPage(todo: state.extra as Todo? ?? Todo.empty()),
   );
 
   static final GoRoute user = GoRoute(
@@ -28,15 +28,7 @@ final class AppRoutes {
 
   static final GoRoute writeTodo = GoRoute(
     path: '/write_todo',
-    builder: (context, state) {
-      ProviderContainer container = ProviderScope.containerOf(context);
-
-      container
-          .read(detailsTodoNotifierProvider.notifier)
-          .updateTodo(state.extra as Todo? ?? Todo.empty());
-
-      return WriteTodoPage();
-    },
+    builder: (context, state) => WriteTodoPage(),
   );
 
   static final StatefulShellRoute shellRoute = StatefulShellRoute.indexedStack(
