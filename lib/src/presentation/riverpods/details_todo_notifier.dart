@@ -34,6 +34,6 @@ class DetailsTodoNotifier extends _$DetailsTodoNotifier {
   }
 
   Future<bool> deleteTodo() async {
-    return _localDatabaseRepository.deleteTodo(state.id ?? -1);
+    return _localDatabaseRepository.deleteTodo(state);
   }
 }

@@ -111,9 +111,31 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<bool> deleteTodosAndTagsByTodoId(int todoId) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.todosAndTags)
+        ..where((tbl) => tbl.todoId.equals(todoId))).go();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> insertImage(ImagesCompanion image) async {
     try {
       await _localDatabase.into(_localDatabase.images).insert(image);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteImage(int id) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.images)
+        ..where((item) => item.id.equals(id))).go();
 
       return true;
     } catch (e) {
@@ -133,9 +155,8 @@ class LocalDatabaseHelper {
 
   Future<bool> deleteTodo(int id) async {
     try {
-      await (_localDatabase
-          .delete(_localDatabase.todos)
-          ..where((item) => item.id.equals(id))).go();
+      await (_localDatabase.delete(_localDatabase.todos)
+        ..where((item) => item.id.equals(id))).go();
 
       return true;
     } catch (e) {

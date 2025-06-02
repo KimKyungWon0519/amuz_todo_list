@@ -10,6 +10,6 @@ abstract interface class LocalDatabaseRepository {
 
   Future<bool> insertTodo(Todo todo);
   Future<bool> updateTodo(Todo todo);
-  Future<bool> deleteTodo(int id);
+  Future<bool> deleteTodo(Todo todo);
   Stream<List<Todo>> watchAllTodos();
 }

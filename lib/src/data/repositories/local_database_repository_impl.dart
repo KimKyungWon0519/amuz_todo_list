@@ -103,14 +103,40 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
       }).toList();
     });
   }
-  
+
   @override
   Future<bool> updateTodo(Domain.Todo todo) {
     return _localDatabaseHelper.updateTodo(todo.toDataCompanion());
   }
-  
+
   @override
-  Future<bool> deleteTodo(int id) {
-    return _localDatabaseHelper.deleteTodo(id);
+  Future<bool> deleteTodo(Domain.Todo todo) {
+    if (todo.id == null) {
+      return Future.value(false);
+    }
+
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          bool isSuccess = false;
+
+          isSuccess = await _localDatabaseHelper.deleteTodosAndTagsByTodoId(
+            todo.id!,
+          );
+
+          if (!isSuccess) throw Exception('Failed to delete todos and tags');
+
+          for (final Domain.Image image in todo.images) {
+            await _localDatabaseHelper.deleteImage(image.id!);
+
+            if (!isSuccess) throw Exception('Failed to delete image');
+          }
+
+          isSuccess = await _localDatabaseHelper.deleteTodo(todo.id!);
+
+          if (!isSuccess) throw Exception('Failed to delete todos and tags');
+
+          return true;
+        })
+        .catchError((_) => false);
   }
 }
