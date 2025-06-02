@@ -1,8 +1,10 @@
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/pages/write_todo_page.dart/local_widgets/load_temp_todo_dialog.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'local_widgets/image_preview.dart';
@@ -25,9 +27,13 @@ class WriteTodoPage extends HookWidget {
         if (todo != null) {
           container.read(writeTodoNotifierProvider.notifier).setTodo(todo!);
         } else {
-          AsyncValue<List<int>> todoId = await container.read(watchAllTempTodoIdsProvider);
+          final List<int> todoId = await container.read(
+            getAllTempTodoIdsProvider.future,
+          );
 
-          print(todoId);
+          if (todoId.isNotEmpty) {
+            bool isLoad = await showLoadTempTodoDialog(context);
+          }
         }
       });
     }, []);
