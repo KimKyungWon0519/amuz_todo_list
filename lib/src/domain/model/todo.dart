@@ -12,6 +12,7 @@ abstract class Todo with _$Todo {
     required Set<Tag> tags,
     required List<Image> images,
     required DateTime createAt,
+    @Default(false) bool isDone,
     DateTime? updateAt,
   }) = _Todo;
 

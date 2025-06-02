@@ -12,3 +12,12 @@ extension DomainImageMapper on Domain.Image {
     );
   }
 }
+
+extension DataImageMapper on Data.Image {
+  Domain.Image toDomainModel() {
+    return Domain.Image(
+      id: id,
+      url: url,
+    );
+  }
+}
