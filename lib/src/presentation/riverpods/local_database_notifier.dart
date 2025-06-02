@@ -15,6 +15,13 @@ Stream<Set<Tag>> watchAllTags(Ref ref) async* {
 }
 
 @Riverpod(keepAlive: false)
+Future<Set<Tag>> getAllTags(Ref ref) {
+  final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
+
+  return repository.getAllTags();
+}
+
+@Riverpod(keepAlive: false)
 Stream<List<Todo>> watchAllTempTodoIds(Ref ref) async* {
   final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
 

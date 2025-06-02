@@ -10,7 +10,7 @@ part 'todo_list_notifier.g.dart';
 class TodoListNotifier extends _$TodoListNotifier {
   late final LocalDatabaseRepository _localDatabaseRepository;
 
-  FilterType _filterType = FilterType.all;
+  FilterType _filterType = AllFilterType();
 
   TodoListNotifier()
     : _localDatabaseRepository = GetIt.I<LocalDatabaseRepository>();
@@ -54,17 +54,19 @@ class TodoListNotifier extends _$TodoListNotifier {
     List<Todo> todos = await _localDatabaseRepository.getAllTodos();
 
     switch (filterType) {
-      case FilterType.all:
+      case AllFilterType():
         state = AsyncData(todos);
-
         break;
-      case FilterType.complete:
-        state = AsyncData(todos.where((todo) => todo.isDone).toList());
-
-        break;
-      case FilterType.incomplete:
+      case IncompleteFilterType():
         state = AsyncData(todos.where((todo) => !todo.isDone).toList());
-
+        break;
+      case CompleteFilterType():
+        state = AsyncData(todos.where((todo) => todo.isDone).toList());
+        break;
+      case TagFilterType():
+        state = AsyncData(
+          todos.where((todo) => todo.tags.contains(filterType.tag)).toList(),
+        );
         break;
     }
   }
