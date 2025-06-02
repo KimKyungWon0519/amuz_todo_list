@@ -27,3 +27,10 @@ Future<List<int>> getAllTempTodoIds(Ref ref) {
 
   return repository.getAllTempTodoIds();
 }
+
+@Riverpod(keepAlive: false)
+Future<bool> deleteTempTodo(Ref ref, Todo todo) {
+  final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
+
+  return repository.deleteTempTodo(todo);
+}

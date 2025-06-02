@@ -207,6 +207,17 @@ class LocalDatabaseHelper {
         .then((rows) => rows.map((row) => row.todoId).toList());
   }
 
+  Future<bool> deleteTempTodoByTodoId(int todoId) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.tempTodos)
+        ..where((item) => item.todoId.equals(todoId))).go();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future printTable() async {
     await _localDatabase.todos.select().get().then((todos) {
       print('Todos: $todos');

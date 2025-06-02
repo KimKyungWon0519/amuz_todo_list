@@ -17,4 +17,5 @@ abstract interface class LocalDatabaseRepository {
   Future<bool> insertTempTodo(Todo todo);
   Future<List<int>> getAllTempTodoIds();
   Stream<List<Todo>> watchAllTempTodoIds();
+  Future<bool> deleteTempTodo(Todo todo);
 }

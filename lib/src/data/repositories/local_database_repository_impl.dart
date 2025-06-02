@@ -225,4 +225,31 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   Future<List<int>> getAllTempTodoIds() {
     return _localDatabaseHelper.getAllTempTodoIds();
   }
+
+  @override
+  Future<bool> deleteTempTodo(Domain.Todo todo) {
+    return _localDatabaseHelper
+        .runInTransaction(() async {
+          if (todo.id == null) {
+            return false;
+          }
+
+          bool isSuccess = await _localDatabaseHelper.deleteTempTodoByTodoId(
+            todo.id!,
+          );
+
+          if (!isSuccess) {
+            throw Exception('Failed to delete temp todo');
+          }
+
+          isSuccess = await deleteTodo(todo);
+
+          if (!isSuccess) {
+            throw Exception('Failed to delete todo');
+          }
+
+          return true;
+        })
+        .catchError((_) => false);
+  }
 }
