@@ -17,7 +17,9 @@ class TodoListNotifier extends _$TodoListNotifier {
 
   @override
   Stream<List<Todo>> build() {
-    return _localDatabaseRepository.watchAllTodos();
+    return _localDatabaseRepository.watchAllTodos()..listen((event) {
+      applyFilter(_filterType);
+    });
   }
 
   void changeDoneState(Todo todo, bool isDone) {
