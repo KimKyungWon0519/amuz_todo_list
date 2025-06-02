@@ -1,5 +1,8 @@
+import 'package:amuz_todo_list/src/domain/model/filter_type.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/todo_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({super.key});
@@ -19,31 +22,26 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
-enum _FilterType {
-  all('전체'),
-  incomplete('미완료'),
-  complete('완료');
-
-  final String name;
-  const _FilterType(this.name);
-}
-
-class _FilterButton extends HookWidget {
+class _FilterButton extends HookConsumerWidget {
   const _FilterButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final ValueNotifier<_FilterType> filterType = useState<_FilterType>(
-      _FilterType.all,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<FilterType> filterType = useState<FilterType>(
+      FilterType.all,
     );
 
     return PopupMenuButton(
       itemBuilder:
           (_) =>
-              _FilterType.values.map((type) {
-                return PopupMenuItem<_FilterType>(
+              FilterType.values.map((type) {
+                return PopupMenuItem<FilterType>(
                   onTap: () {
                     filterType.value = type;
+
+                    ref
+                        .read(todoListNotifierProvider.notifier)
+                        .applyFilter(type);
                   },
                   value: type,
                   child: Row(

@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/domain/model/filter_type.dart';
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/domain/repositories/local_database_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +9,8 @@ part 'todo_list_notifier.g.dart';
 @riverpod
 class TodoListNotifier extends _$TodoListNotifier {
   late final LocalDatabaseRepository _localDatabaseRepository;
+
+  FilterType _filterType = FilterType.all;
 
   TodoListNotifier()
     : _localDatabaseRepository = GetIt.I<LocalDatabaseRepository>();
@@ -22,22 +25,8 @@ class TodoListNotifier extends _$TodoListNotifier {
 
     AsyncValue<List<Todo>> todos = state;
 
-    if (todos.hasValue) {
-      final List<Todo> updatedTodos = todos.value!.toList();
-
-      int index = updatedTodos.indexWhere((element) => element.id == todo.id);
-
-      if (index != -1) {
-        updatedTodos[index] = updatedTodo;
-
-        state = AsyncValue.data(updatedTodos);
-      }
-    }
-
     _localDatabaseRepository.changeisDoneState(updatedTodo).then((value) {
-      if (!value) {
-        state = todos;
-      }
+      value ? applyFilter(_filterType) : state = todos;
     });
   }
 
@@ -57,5 +46,26 @@ class TodoListNotifier extends _$TodoListNotifier {
         state = todos;
       }
     });
+  }
+
+  void applyFilter(FilterType filterType) async {
+    _filterType = filterType;
+
+    List<Todo> todos = await _localDatabaseRepository.getAllTodos();
+
+    switch (filterType) {
+      case FilterType.all:
+        state = AsyncData(todos);
+
+        break;
+      case FilterType.complete:
+        state = AsyncData(todos.where((todo) => todo.isDone).toList());
+
+        break;
+      case FilterType.incomplete:
+        state = AsyncData(todos.where((todo) => !todo.isDone).toList());
+
+        break;
+    }
   }
 }

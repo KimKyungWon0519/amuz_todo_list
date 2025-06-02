@@ -52,6 +52,55 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<List<(Todo, Set<Tag>, Set<Image>)>> getAllTodos() {
+    final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
+      .select(_localDatabase.todos)
+      .join([
+        leftOuterJoin(
+          _localDatabase.todosAndTags,
+          _localDatabase.todosAndTags.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+        leftOuterJoin(
+          _localDatabase.tags,
+          _localDatabase.tags.id.equalsExp(_localDatabase.todosAndTags.tagId),
+        ),
+        leftOuterJoin(
+          _localDatabase.images,
+          _localDatabase.images.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+      ])..where(
+      notExistsQuery(
+        _localDatabase.select(_localDatabase.tempTodos)..where(
+          (tempTodo) => tempTodo.todoId.equalsExp(_localDatabase.todos.id),
+        ),
+      ),
+    );
+
+    return query.get().then((rows) {
+      final Map<int, (Todo, Set<Tag>, Set<Image>)> groupedMap = {};
+
+      for (final row in rows) {
+        final Todo todo = row.readTable(_localDatabase.todos);
+        final Tag? tag = row.readTableOrNull(_localDatabase.tags);
+        final Image? image = row.readTableOrNull(_localDatabase.images);
+
+        final entry = groupedMap.putIfAbsent(
+          todo.id,
+          () => (todo, <Tag>{}, <Image>{}),
+        );
+
+        if (tag != null) {
+          entry.$2.add(tag);
+        }
+        if (image != null) {
+          entry.$3.add(image);
+        }
+      }
+
+      return groupedMap.values.toList();
+    });
+  }
+
   Stream<List<(Todo, Set<Tag>, Set<Image>)>> watchAllTodos() {
     final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
       .select(_localDatabase.todos)
