@@ -143,6 +143,18 @@ class LocalDatabaseHelper {
     }
   }
 
+    Future<bool> deleteImageByTodoId(int todoId) async {
+    try {
+      await (_localDatabase.delete(_localDatabase.images)
+        ..where((item) => item.todoId.equals(todoId))).go();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
   Future<bool> updateTodo(TodosCompanion todo) async {
     try {
       await _localDatabase.update(_localDatabase.todos).replace(todo);

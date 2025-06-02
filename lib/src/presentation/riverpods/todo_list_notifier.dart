@@ -34,7 +34,7 @@ class TodoListNotifier extends _$TodoListNotifier {
       }
     }
 
-    _localDatabaseRepository.updateTodo(updatedTodo).then((value) {
+    _localDatabaseRepository.changeisDoneState(updatedTodo).then((value) {
       if (!value) {
         state = todos;
       }
