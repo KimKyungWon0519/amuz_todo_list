@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/pages/details_todo_page/local_widgets/tag_listview.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,9 +19,7 @@ class DetailsTodoPage extends StatelessWidget {
     Future.delayed(Duration.zero, () {
       ProviderContainer container = ProviderScope.containerOf(context);
 
-      container
-          .read(detailsTodoNotifierProvider.notifier)
-          .updateTodo(todo);
+      container.read(detailsTodoNotifierProvider.notifier).updateTodo(todo);
     });
 
     return Scaffold(
@@ -41,9 +40,12 @@ class DetailsTodoPage extends StatelessWidget {
               SizedBox(height: 8),
               CreateAt(),
               UpdateAt(),
-              Spacer(),
-              ImagePanel(),
-              Spacer(),
+              Container(
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 16),
+                child: TagListview(),
+              ),
+              Expanded(child: ImagePanel()),
             ],
           ),
         ),
