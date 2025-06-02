@@ -192,18 +192,26 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
   Future<bool> insertTempTodo(Domain.Todo todo) {
     return _localDatabaseHelper
         .runInTransaction(() async {
-          int todoId = await insertTodo(todo);
+          if (todo.id != null) {
+            bool isSuccess = await editTodo(todo);
 
-          if (todoId == -1) {
-            throw Exception('Failed to insert todo');
-          }
+            if (!isSuccess) {
+              throw Exception('Failed to edit todo');
+            }
+          } else {
+            int todoId = await insertTodo(todo);
 
-          bool isSuccess = await _localDatabaseHelper.insertTempTodo(
-            TempTodosCompanion(todoId: Value(todoId)),
-          );
+            if (todoId == -1) {
+              throw Exception('Failed to insert todo');
+            }
 
-          if (!isSuccess) {
-            throw Exception('Failed to insert temp todo');
+            bool isSuccess = await _localDatabaseHelper.insertTempTodo(
+              TempTodosCompanion(todoId: Value(todoId)),
+            );
+
+            if (!isSuccess) {
+              throw Exception('Failed to insert temp todo');
+            }
           }
 
           return true;
