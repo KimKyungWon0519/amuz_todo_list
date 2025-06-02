@@ -11,16 +11,13 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Todo todo = ref.read(
-      writeTodoNotifierProvider.select((value) => value.todo),
+    final WriteTodoMode todo = ref.read(
+      writeTodoNotifierProvider.select((value) => value.mode),
     );
 
     return AppBar(
-      title: Text("ToDo ${todo.id != null ? "수정" : "추가"}"),
-      actions: [
-        SaveTempButton(),
-        SaveButton(),
-      ],
+      title: Text("ToDo ${todo == WriteTodoMode.create ? '작성' : '수정'}"),
+      actions: [SaveTempButton(), SaveButton()],
     );
   }
 
