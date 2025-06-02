@@ -185,11 +185,18 @@ class LocalDatabaseHelper {
     }
   }
 
-  Stream<List<int>> getAllTempTodoIds() {
+  Stream<List<int>> watchAllTempTodoIds() {
     return _localDatabase
         .select(_localDatabase.tempTodos)
         .watch()
         .map((rows) => rows.map((row) => row.todoId).toList());
+  }
+
+  Future<List<int>> getAllTempTodoIds() async {
+    return await _localDatabase
+        .select(_localDatabase.tempTodos)
+        .get()
+        .then((rows) => rows.map((row) => row.todoId).toList());
   }
 
   Future printTable() async {

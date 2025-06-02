@@ -19,3 +19,10 @@ Stream<List<int>> watchAllTempTodoIds(Ref ref) async* {
 
   yield* repository.watchAllTempTodoIds();
 }
+
+@Riverpod(keepAlive: false)
+Future<List<int>> getAllTempTodoIds(Ref ref) {
+  final LocalDatabaseRepository repository = GetIt.I<LocalDatabaseRepository>();
+
+  return repository.getAllTempTodoIds();
+}

@@ -213,6 +213,11 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
 
   @override
   Stream<List<int>> watchAllTempTodoIds() {
+    return _localDatabaseHelper.watchAllTempTodoIds();
+  }
+  
+  @override
+  Future<List<int>> getAllTempTodoIds() {
     return _localDatabaseHelper.getAllTempTodoIds();
   }
 }
