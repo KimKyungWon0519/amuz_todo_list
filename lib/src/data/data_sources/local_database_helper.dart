@@ -121,6 +121,16 @@ class LocalDatabaseHelper {
     }
   }
 
+  Future<bool> updateTodo(TodosCompanion todo) async {
+    try {
+      await _localDatabase.update(_localDatabase.todos).replace(todo);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<T> runInTransaction<T>(Future<T> Function() action) async {
     return await _localDatabase.transaction(action);
   }

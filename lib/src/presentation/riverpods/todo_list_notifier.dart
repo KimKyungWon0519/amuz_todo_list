@@ -16,4 +16,28 @@ class TodoListNotifier extends _$TodoListNotifier {
   Stream<List<Todo>> build() {
     return _localDatabaseRepository.watchAllTodos();
   }
+
+  void changeDoneState(Todo todo, bool isDone) {
+    final updatedTodo = todo.copyWith(isDone: isDone);
+
+    AsyncValue<List<Todo>> todos = state;
+
+    if (todos.hasValue) {
+      final List<Todo> updatedTodos = todos.value!.toList();
+
+      int index = updatedTodos.indexWhere((element) => element.id == todo.id);
+
+      if (index != -1) {
+        updatedTodos[index] = updatedTodo;
+
+        state = AsyncValue.data(updatedTodos);
+      }
+    }
+
+    _localDatabaseRepository.updateTodo(updatedTodo).then((value) {
+      if (!value) {
+        state = todos;
+      }
+    });
+  }
 }

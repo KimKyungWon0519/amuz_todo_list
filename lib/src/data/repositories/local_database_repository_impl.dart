@@ -103,4 +103,9 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
       }).toList();
     });
   }
+  
+  @override
+  Future<bool> updateTodo(Domain.Todo todo) {
+    return _localDatabaseHelper.updateTodo(todo.toDataCompanion());
+  }
 }
