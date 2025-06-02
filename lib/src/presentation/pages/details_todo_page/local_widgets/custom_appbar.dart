@@ -24,7 +24,19 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                       onTap: () {
                         final Todo todo = ref.read(detailsTodoNotifierProvider);
 
-                        context.push(AppRoutes.writeTodo.path, extra: todo);
+                        context
+                            .push(AppRoutes.writeTodo.path, extra: todo)
+                            .then((value) {
+                              print("Todo 수정 완료: $value");
+
+                              if (value != null && value is Todo) {
+                                print('2');
+
+                                ref
+                                    .read(detailsTodoNotifierProvider.notifier)
+                                    .updateTodo(value);
+                              }
+                            });
                       },
                     ),
                     PopupMenuItem(

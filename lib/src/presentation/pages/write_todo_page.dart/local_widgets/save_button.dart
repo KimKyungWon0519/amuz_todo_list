@@ -36,13 +36,15 @@ class SaveButton extends ConsumerWidget {
           .createTodo()
           .then((value) {
             context.pop();
-            
+
             return value;
           });
     } else {
+      todo = todo.copyWith(updateAt: DateTime.now());
+
       result = await ref
           .read(writeTodoNotifierProvider.notifier)
-          .editTodo()
+          .editTodo(todo)
           .then((value) {
             context.pop();
 
@@ -61,7 +63,7 @@ class SaveButton extends ConsumerWidget {
               ],
             ),
       ).then((value) {
-        context.pop();
+        context.pop(todo);
       });
     } else {
       showErrorDialog(
