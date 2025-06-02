@@ -14,16 +14,8 @@ class ImagePreview extends ConsumerWidget {
       writeTodoNotifierProvider.select((value) => value.selectedImage),
     );
 
-    return LayoutBuilder(
-      builder:
-          (context, constraints) => SizedBox(
-            height: constraints.maxWidth,
-            width: constraints.maxWidth,
-            child:
-                selectedImage != null
-                    ? Image.file(File(selectedImage.url))
-                    : const Center(child: Text('이미지를 선택해주세요')),
-          ),
-    );
+    return selectedImage != null
+        ? Image.file(File(selectedImage.url))
+        : const Center(child: Text('이미지를 선택해주세요'));
   }
 }

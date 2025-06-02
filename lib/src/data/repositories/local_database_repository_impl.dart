@@ -211,7 +211,7 @@ class LocalDatabaseRepositoryImpl implements LocalDatabaseRepository {
           }
 
           int tempTodoId = await _localDatabaseHelper.getTempTodoIdByTodoId(
-            todo.id!,
+            todoId,
           );
 
           if (tempTodoId == -1) {

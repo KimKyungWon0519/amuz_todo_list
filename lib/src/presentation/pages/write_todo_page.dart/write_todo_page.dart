@@ -48,6 +48,7 @@ class WriteTodoPage extends HookWidget {
     }, []);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppbar(),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -59,7 +60,7 @@ class WriteTodoPage extends HookWidget {
             Divider(),
             TagTile(),
             Divider(),
-            ImagePreview(),
+            Expanded(child: ImagePreview()),
             AddImageButtonsRow(),
           ],
         ),
