@@ -1,6 +1,7 @@
 import 'package:amuz_todo_list/src/app_initialize.dart';
 import 'package:amuz_todo_list/src/core/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -10,6 +11,11 @@ void main() async {
   initializeDependency();
 
   await initializeDateFormatting("ko");
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(ProviderScope(child: MainApp()));
 }
