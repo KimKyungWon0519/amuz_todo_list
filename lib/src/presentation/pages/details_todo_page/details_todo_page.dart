@@ -34,7 +34,7 @@ class DetailsTodoPage extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [TodoTitle(), Spacer(), TodoCheckbox()]),
+              Row(children: [Expanded(child: TodoTitle()), TodoCheckbox()]),
               SizedBox(height: 8),
               CreateAt(),
               UpdateAt(),
