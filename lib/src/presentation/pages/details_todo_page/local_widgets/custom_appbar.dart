@@ -1,4 +1,5 @@
 import 'package:amuz_todo_list/src/core/routes/app_routes.dart';
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/loading_dialog.dart';
@@ -21,7 +22,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                     PopupMenuItem(
                       child: Text("수정"),
                       onTap: () {
-                        context.push(AppRoutes.writeTodo.path);
+                        final Todo todo = ref.read(detailsTodoNotifierProvider);
+
+                        context.push(AppRoutes.writeTodo.path, extra: todo);
                       },
                     ),
                     PopupMenuItem(

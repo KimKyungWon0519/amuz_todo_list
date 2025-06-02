@@ -19,6 +19,10 @@ class WriteTodoNotifier extends _$WriteTodoNotifier {
     return WriteTodoState(todo: Todo.empty());
   }
 
+  void setTodo(Todo todo) {
+    state = state.copyWith(todo: todo);
+  }
+
   void setTitle(String title) {
     Todo todo = state.todo.copyWith(title: title);
 

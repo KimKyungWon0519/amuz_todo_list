@@ -1,4 +1,7 @@
+import 'package:amuz_todo_list/src/domain/model/todo.dart';
+import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'local_widgets/image_preview.dart';
 import 'local_widgets/title_field.dart';
@@ -7,10 +10,22 @@ import 'local_widgets/custom_appbar.dart';
 import 'local_widgets/tag_tile.dart';
 
 class WriteTodoPage extends StatelessWidget {
-  const WriteTodoPage({super.key});
+  final Todo? todo;
+
+  const WriteTodoPage({super.key, this.todo});
 
   @override
   Widget build(BuildContext context) {
+    if (todo != null) {
+      Future.delayed(Duration.zero, () {
+        ProviderContainer container = ProviderScope.containerOf(context);
+
+        container
+            .read(writeTodoNotifierProvider.notifier)
+            .setTitle(todo!.title);
+      });
+    }
+
     return Scaffold(
       appBar: CustomAppbar(),
       body: Padding(
