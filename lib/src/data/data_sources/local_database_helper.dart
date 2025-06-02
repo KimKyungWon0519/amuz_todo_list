@@ -52,7 +52,7 @@ class LocalDatabaseHelper {
     }
   }
 
-  Stream<List<(Todo, List<Tag>, List<Image>)>> watchAllTodos() {
+  Stream<List<(Todo, Set<Tag>, Set<Image>)>> watchAllTodos() {
     final JoinedSelectStatement<HasResultSet, dynamic> query = _localDatabase
         .select(_localDatabase.todos)
         .join([
@@ -73,7 +73,7 @@ class LocalDatabaseHelper {
         ]);
 
     return query.watch().map((rows) {
-      final Map<int, (Todo, List<Tag>, List<Image>)> groupedMap = {};
+      final Map<int, (Todo, Set<Tag>, Set<Image>)> groupedMap = {};
 
       for (final row in rows) {
         final Todo todo = row.readTable(_localDatabase.todos);
@@ -82,7 +82,7 @@ class LocalDatabaseHelper {
 
         final entry = groupedMap.putIfAbsent(
           todo.id,
-          () => (todo, <Tag>[], <Image>[]),
+          () => (todo, <Tag>{}, <Image>{}),
         );
 
         if (tag != null) {
