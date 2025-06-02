@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/core/routes/app_routes.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/details_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/loading_dialog.dart';
@@ -17,7 +18,12 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             return PopupMenuButton(
               itemBuilder:
                   (context) => [
-                    PopupMenuItem(child: Text("수정")),
+                    PopupMenuItem(
+                      child: Text("수정"),
+                      onTap: () {
+                        context.push(AppRoutes.writeTodo.path);
+                      },
+                    ),
                     PopupMenuItem(
                       child: Text("삭제"),
                       onTap: () => _deleteTodo(context, ref),
