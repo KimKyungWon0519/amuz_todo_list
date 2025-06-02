@@ -1,3 +1,4 @@
+import 'package:amuz_todo_list/src/presentation/riverpods/local_database_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/riverpods/write_todo_notifier.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/error_dialog.dart';
 import 'package:amuz_todo_list/src/presentation/widgets/loading_dialog.dart';
@@ -10,9 +11,19 @@ class SaveTempButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<List<int>> tempTodoIds = ref.watch(
+      watchAllTempTodoIdsProvider,
+    );
+
+    int length = tempTodoIds.when(
+      data: (data) => data.length,
+      error: (_, __) => 0,
+      loading: () => 0,
+    );
+
     return TextButton(
       onPressed: () => _saveTemp(context, ref),
-      child: Text('임시저장 | 0'),
+      child: Text('임시저장 | $length'),
     );
   }
 
